@@ -1,0 +1,24 @@
+package org.poach3r
+
+enum class TokenType {
+    // Single-character tokens.
+    LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE, THIS, LEFT_BRACKET, RIGHT_BRACKET,
+    COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR, MODULO,
+
+    // One or two character tokens.
+    BANG, BANG_EQUAL,
+    EQUAL, EQUAL_EQUAL,
+    GREATER, GREATER_EQUAL,
+    LESS, LESS_EQUAL,
+    PLUS_PLUS, MINUS_MINUS,
+    LEFT_ARROW, RIGHT_ARROW,
+
+    // Literals.
+    IDENTIFIER, STRING, NUMBER,
+
+    // Keywords.
+    AND, ELSE, FALSE, FUN, FOR, IF, OR, BREAK, CLASS,
+    PRINT, RETURN, TRUE, VAR, VAL, WHILE, FOREACH, SUPER,
+
+    EOF
+}

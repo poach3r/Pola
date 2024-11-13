@@ -1,0 +1,45 @@
+# Classes
+class Person {
+    init(sName, iTicketPrice) {
+        this.sName = sName
+        this.iTicketPrice = iTicketPrice
+    }
+
+    toString() {
+        return this.sName + "'s ticket costs $" + this.iTicketPrice + "."
+    }
+}
+
+class Adult <- Person {
+    init(sName) {
+        super.init(sName, 10)
+    }
+
+    toString() {
+        return this.sName + " is an adult, their ticket costs $" + this.iTicketPrice + "."
+    }
+}
+
+class Child <- Person {
+    init(sName) {
+        super.init(sName, 5)
+    }
+
+    toString() {
+        return this.sName + " is an child, their ticket costs $" + this.iTicketPrice + "."
+    }
+}
+
+# Main
+val mike = Adult("Mike")
+val erin = Adult("Erin")
+val henry = Child("Henry")
+val phillip = Person("Phillip", 100)
+val family = array(mike, erin, henry, phillip)
+
+foreach(
+    family,
+    fun(member, index) {
+        print(member.toString())
+    }
+)
