@@ -3,6 +3,7 @@
 1. [About](#about)
 2. [Feature Showcase](#feature-showcase)
 3. [Libraries](#libraries)
+4. [Todo](#todo)
 
 # About
 
@@ -152,3 +153,9 @@ val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
 | foreach | n/a     | applicationFunc    | 2     | applicationFunc will be passed each character of the string and optionally the index of the character, returned values will be discarded.    |
 | map     | string  | applicationFunc    | 2     | applicationFunc will be passed each character of the string and optionally the index of the character and should return a replacement value. |
 | replace | string  | replacee, replacer | 3     | All occurrences of replacee in the string will be replaced with replacer.                                                                    |
+
+# Todo
+- Create a Javadoc
+- Improve README documentation
+- Remove primitives
+- Add libraries and functions for IO
