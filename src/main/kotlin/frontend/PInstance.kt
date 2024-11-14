@@ -2,22 +2,43 @@ package org.poach3r.frontend
 
 import org.poach3r.Token
 import org.poach3r.errors.RuntimeError
+import org.poach3r.frontend.classes.PClass
+import org.poach3r.frontend.functions.PFunction
 
 class PInstance(
-    private val clazz: PClass
+    val clazz: PClass,
+    private val fields: HashMap<String, Any> = hashMapOf()
 ) {
-    private val fields = HashMap<String, Any>()
-
     fun get(name: Token): Any {
         fields.get(name.lexeme)?.let {
             return it
         }
 
         clazz.findMethod(name.lexeme)?.let {
-            return it.bind(this)
+            if(it is PFunction)
+                return it.bind(this)
+
+            return it
         }
 
         throw RuntimeError(name.line, "Undefined property '${name.lexeme}'.")
+    }
+
+    fun get(name: String): Any {
+        fields.get(name)?.let {
+            return it
+        }
+
+        clazz.findMethod(name)?.let {
+            if(it is PFunction)
+                return it.bind(this)
+
+            return it
+        }
+
+        throw RuntimeError(
+            msg = "Undefined property '${name}'."
+        )
     }
 
     fun set(name: Token, value: Any) {
@@ -25,6 +46,6 @@ class PInstance(
     }
 
     override fun toString(): String {
-        return "${clazz.name} $fields"
+        return clazz.toString(fields)
     }
 }

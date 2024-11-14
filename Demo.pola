@@ -1,45 +1,23 @@
-# Classes
+# Imports
+import Standard as std
+val println = std.println
+
 class Person {
-    init(sName, iTicketPrice) {
-        this.sName = sName
-        this.iTicketPrice = iTicketPrice
+    init(name, age) {
+        this.name = name
+        this.age = age
     }
 
     toString() {
-        return this.sName + "'s ticket costs $" + this.iTicketPrice + "."
+        return this.name + " is " + this.age + " years old."
     }
 }
 
-class Adult <- Person {
-    init(sName) {
-        super.init(sName, 10)
-    }
-
-    toString() {
-        return this.sName + " is an adult, their ticket costs $" + this.iTicketPrice + "."
+class JimmyCarter inherits Person {
+    init() {
+        super.init("Jimmy Carter", 100)
     }
 }
 
-class Child <- Person {
-    init(sName) {
-        super.init(sName, 5)
-    }
-
-    toString() {
-        return this.sName + " is an child, their ticket costs $" + this.iTicketPrice + "."
-    }
-}
-
-# Main
-val mike = Adult("Mike")
-val erin = Adult("Erin")
-val henry = Child("Henry")
-val phillip = Person("Phillip", 100)
-val family = array(mike, erin, henry, phillip)
-
-foreach(
-    family,
-    fun(member, index) {
-        print(member.toString())
-    }
-)
+val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
+println(jimmyCarter.toString())

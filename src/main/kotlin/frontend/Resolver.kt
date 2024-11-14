@@ -66,7 +66,7 @@ class Resolver(
         stmt.methods.forEach {
             resolveFunction(
                 function = it,
-                type = if(it.name.lexeme == "init")
+                type = if(it.name!!.lexeme == "init")
                     FunctionType.INITIALIZER
                 else
                     FunctionType.METHOD
@@ -110,8 +110,10 @@ class Resolver(
     }
 
     override fun visitFunctionStmt(stmt: Stmt.Companion.Function): Any {
-        declare(stmt.name)
-        define(stmt.name)
+        if(stmt.name != null) {
+            declare(stmt.name)
+            define(stmt.name)
+        }
 
         resolveFunction(stmt, FunctionType.FUNCTION)
         return 0
@@ -123,29 +125,36 @@ class Resolver(
     }
 
     override fun visitIfStmt(stmt: Stmt.Companion.If): Any {
+        beginScope()
         resolve(stmt.condition)
         resolve(stmt.thenBranch)
 
         if(stmt.elseBranch != null)
             resolve(stmt.elseBranch)
 
+        endScope()
+
         return 0
     }
 
     override fun visitWhileStmt(stmt: Stmt.Companion.While): Any {
+        beginScope()
         resolve(stmt.condition)
         resolve(stmt.body)
+        endScope()
 
         return 0
     }
 
     override fun visitForStmt(stmt: Stmt.Companion.For): Any {
+        beginScope()
         stmt.initializer?.let {
             resolve(it)
         }
         resolve(stmt.condition)
         resolve(stmt.incrementer)
         resolve(stmt.body)
+        endScope()
 
         return 0
     }
@@ -217,11 +226,6 @@ class Resolver(
     override fun visitBinaryExpr(expr: Expr.Companion.Binary): Any {
         resolve(expr.left)
         resolve(expr.right)
-        return 0
-    }
-
-    override fun visitArrayGetExpr(expr: Expr.Companion.ArrayGet): Any {
-        resolve(expr.index)
         return 0
     }
 

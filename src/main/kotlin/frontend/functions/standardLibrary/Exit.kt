@@ -1,9 +1,8 @@
-package org.poach3r.frontend.functions
+package frontend.functions.standardLibrary
 
+import org.poach3r.errors.RuntimeError
 import org.poach3r.frontend.Interpreter
 import org.poach3r.frontend.PCallable
-import org.poach3r.errors.BreakError
-import org.poach3r.errors.RuntimeError
 import kotlin.system.exitProcess
 
 class Exit(

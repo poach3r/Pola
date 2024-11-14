@@ -7,50 +7,12 @@ import org.poach3r.TokenType.*
 import org.poach3r.errors.BreakError
 import org.poach3r.errors.ReturnError
 import org.poach3r.errors.RuntimeError
-import org.poach3r.frontend.functions.Clock
-import org.poach3r.frontend.functions.Exit
-import org.poach3r.frontend.functions.ForEach
+import org.poach3r.frontend.classes.PForeignClass
+import org.poach3r.frontend.classes.StandardLibrary
 import org.poach3r.frontend.functions.PFunction
-import org.poach3r.frontend.functions.Print
 
 class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
-    val globals = Environment().apply {
-        this.define(
-            name = "clock",
-            mutable = false,
-            value = Clock()
-        )
-        this.define(
-            name = "print",
-            mutable = false,
-            value = Print()
-        )
-        this.define(
-            name = "array",
-            mutable = false,
-            value = org.poach3r.frontend.functions.Array()
-        )
-        this.define(
-            name = "exit",
-            mutable = false,
-            value = Exit()
-        )
-        this.define(
-            name = "foreach",
-            mutable = false,
-            value = ForEach()
-        )
-//        this.define(
-//            name = "return",
-//            mutable = false,
-//            value = Return()
-//        )
-//        this.define(
-//            name = "break",
-//            mutable = false,
-//            value = Break()
-//        )
-    }
+    val globals = Environment()
     private var environment = globals
     private val locals = HashMap<Expr, Int>()
 
@@ -69,6 +31,14 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     }
 
     override fun visitFunctionStmt(stmt: Stmt.Companion.Function): Any {
+        if(stmt.name == null) {
+            return PFunction(
+                declaration = stmt,
+                closure = environment,
+                isInitializer = false
+            )
+        }
+
         return environment.define(
             name = stmt.name.lexeme,
             mutable = false,
@@ -87,7 +57,12 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     }
 
     override fun visitVarStmt(stmt: Stmt.Companion.Var): Any {
-        val value = evaluate(stmt.initializer)
+        val value =
+            if(stmt.initializer is Expr.Companion.Var && stmt.initializer.name.lexeme == "Standard")
+                StandardLibrary().call(this, listOf())
+            else
+                evaluate(stmt.initializer)
+
         environment.define(stmt.name, stmt.mutable, value)
         return value
     }
@@ -101,7 +76,7 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
         var superclass: Any? = null
         stmt.superclass?.let {
             superclass = evaluate(stmt.superclass)
-            if(superclass !is PClass)
+            if(superclass !is PForeignClass)
                 throw RuntimeError(
                     line = stmt.superclass.name.line,
                     msg = "Superclass '$superclass' is not a class."
@@ -126,16 +101,18 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
 
         environment.assign(
             token = stmt.name,
-            value = PClass(
+            value = PForeignClass(
                 name = stmt.name.lexeme,
-                superclass = superclass as PClass?,
-                methods = HashMap<String, PFunction>().apply {
+                superclass = superclass as PForeignClass?,
+                methods = HashMap<String, PCallable>().apply {
                     stmt.methods.forEach {
-                        this.put(it.name.lexeme, PFunction(
-                            declaration = it,
-                            closure = environment,
-                            isInitializer = it.name.lexeme == "init"
-                        ))
+                        this.put(
+                            it.name!!.lexeme, PFunction(
+                                declaration = it,
+                                closure = environment,
+                                isInitializer = it.name.lexeme == "init"
+                            )
+                        )
                     }
                 }
             )
@@ -154,31 +131,52 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     }
 
     override fun visitIfStmt(stmt: Stmt.Companion.If): Any {
-        if(isTruthy(evaluate(stmt.condition))) {
-            execute(stmt.thenBranch)
-        } else if(stmt.elseBranch != null) {
-            execute(stmt.elseBranch)
+        val previous = this.environment
+        try {
+            this.environment = Environment(previous)
+
+            if(isTruthy(evaluate(stmt.condition))) {
+                execute(stmt.thenBranch)
+            } else if(stmt.elseBranch != null) {
+                execute(stmt.elseBranch)
+            }
+        } finally {
+            this.environment = previous
         }
 
         return 0
     }
 
     override fun visitWhileStmt(stmt: Stmt.Companion.While): Any {
-        while (isTruthy(evaluate(stmt.condition))) {
-            execute(stmt.body)
+        val previous = this.environment
+        try {
+            this.environment = Environment(previous)
+
+            while (isTruthy(evaluate(stmt.condition))) {
+                execute(stmt.body)
+            }
+        } finally {
+            this.environment = previous
         }
 
         return 0
     }
 
     override fun visitForStmt(stmt: Stmt.Companion.For): Any {
-        stmt.initializer?.let {
-            execute(it)
-        }
+        val previous = this.environment
+        try {
+            this.environment = Environment(previous)
 
-        while(isTruthy(evaluate(stmt.condition))) {
-            execute(stmt.body)
-            evaluate(stmt.incrementer)
+            stmt.initializer?.let {
+                execute(it)
+            }
+
+            while(isTruthy(evaluate(stmt.condition))) {
+                execute(stmt.body)
+                evaluate(stmt.incrementer)
+            }
+        } finally {
+            this.environment = previous
         }
 
         return 0
@@ -239,6 +237,10 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
                 checkNumberOperands(expr.operator, left, right)
                 return left as Double  * right as Double
             }
+            MODULO -> {
+                checkNumberOperands(expr.operator, left, right)
+                return left as Double % right as Double
+            }
 
             GREATER -> {
                 checkNumberOperands(expr.operator, left, right)
@@ -263,38 +265,6 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
         }
 
         return false
-    }
-
-    override fun visitArrayGetExpr(expr: Expr.Companion.ArrayGet): Any {
-        val index = evaluate(expr.index)
-        val list = lookupVar(expr.name, expr)
-
-        if(list !is List<*>)
-            throw RuntimeError(
-                line = expr.name.line,
-                msg = "Variable '${expr.name.lexeme}' is not an array."
-            )
-
-        if(index !is Double)
-            throw RuntimeError(
-                line = expr.name.line,
-                msg = "Index '${expr.index}' is not a number."
-            )
-
-        if(list.size <= index)
-            throw RuntimeError(
-                line = expr.name.line,
-                msg = "Index '$index' is out of bounds for array '${expr.name.lexeme}'."
-            )
-
-        list[index.toInt()]?.let {
-            return it
-        }
-
-        throw RuntimeError(
-            line = expr.name.line,
-            msg = "Object #$index of array '${expr.name.lexeme}' does not exist."
-        )
     }
 
     override fun visitGroupingExpr(expr: Expr.Companion.Grouping): Any {
@@ -341,12 +311,21 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
         return 0 // unreachable
     }
 
+    /**
+     * Gets a variable based on distance.
+     * @return The desired variable.
+     */
     override fun visitVarExpr(expr: Expr.Companion.Var): Any {
         return lookupVar(expr.name, expr)
     }
 
+    /**
+     * Calls native and foreign functions.
+     * @return Whatever is returned by the function call
+     */
     override fun visitCallExpr(expr: Expr.Companion.Call): Any {
         val callee = evaluate(expr.callee)
+
         if(callee !is PCallable) {
             throw RuntimeError(
                 line = expr.paren.line,
@@ -354,27 +333,43 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
             )
         }
 
+        // get function arguments
         val arguments = ArrayList<Any>().apply {
+            // if the function is a method
+            if(expr.callee is Expr.Companion.Get) {
+                val result = evaluate(expr.callee.obj)
+                if(result is PInstance) {
+                    try {
+                        // get the literal value of the class and pass it as an argument
+                        this.add(result.get("__literalValue"))
+                    } catch (_: RuntimeError) { } // if its not a native class then it'll throw a RuntimeError
+                }
+            }
+
+            // add the actual arguments
             expr.arguments.map { execute(it) }.forEach(this::add)
         }
 
+        // check if the provided arguments match the expected ones
         if(arguments.size != callee.arity && callee.arity != -1)
             throw RuntimeError(expr.paren.line, "Expected ${callee.arity} arguments but got ${arguments.size}.")
 
-        return callee.call(this, arguments)
+        // call the function
+        try {
+            return callee.call(this, arguments)
+        } catch(e: RuntimeError) {
+            throw RuntimeError( // this allows errors thrown while calling to have vague line numbers
+                line = expr.paren.line,
+                msg = e.msg
+            )
+        }
     }
 
     override fun visitGetExpr(expr: Expr.Companion.Get): Any {
         val obj = evaluate(expr.obj)
 
-        if(obj is List<*>) {
-            when(expr.name.lexeme) {
-                "size" -> return obj.size.toDouble()
-            }
-        }
-
         if(obj !is PInstance)
-            throw RuntimeError(expr.name.line, "Attempted to access nonexistent property '${expr.name.lexeme}' of ${expr.obj}")
+            throw RuntimeError(expr.name.line, "Attempted to access non-existent property '${expr.name.lexeme}' of '$obj'.")
 
         return obj.get(expr.name)
     }
@@ -392,10 +387,10 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
 
     override fun visitSuperExpr(expr: Expr.Companion.Super): Any {
         val distance = locals.get(expr)!!
-        val superclass = environment.getAt(distance, "super") as PClass
+        val superclass = environment.getAt(distance, "super") as PForeignClass
 
         superclass.findMethod(expr.method.lexeme)?.let {
-            return it.bind(environment.getAt(distance - 1, "this") as PInstance)
+            return (it as PFunction).bind(environment.getAt(distance - 1, "this") as PInstance)
         }
 
         throw RuntimeError(
@@ -449,6 +444,9 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
             return text
         }
 
+        if(obj is String)
+            return obj.replace("\\n", "\n")
+
         return obj.toString()
     }
 
@@ -459,7 +457,7 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
             statements.forEach {
                 execute(it)
             }
-        } catch(e: BreakError) {
+        } catch(_: BreakError) {
             return
         } finally {
             this.environment = previous

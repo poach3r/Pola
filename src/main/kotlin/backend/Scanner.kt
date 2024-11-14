@@ -19,11 +19,9 @@ class Scanner {
         "false" to FALSE,
         "true" to TRUE,
         "for" to FOR,
-        //"foreach" to FOREACH,
         "fun" to FUN,
         "if" to IF,
         "or" to OR,
-        //"print" to PRINT,
         "return" to RETURN,
         "var" to VAR,
         "val" to VAL,
@@ -31,7 +29,10 @@ class Scanner {
         "break" to BREAK,
         "class" to CLASS,
         "this" to THIS,
-        "super" to SUPER
+        "super" to SUPER,
+        "import" to IMPORT,
+        "as" to AS,
+        "inherits" to INHERITS
     )
 
     fun scanTokens(source: String): List<Token> {

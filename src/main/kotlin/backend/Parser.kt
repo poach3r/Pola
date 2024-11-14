@@ -36,6 +36,9 @@ class Parser {
     }
 
     private fun declaration(): Stmt {
+        if(match(IMPORT))
+            return import()
+
         if(match(CLASS))
             return classDeclaration()
 
@@ -76,14 +79,29 @@ class Parser {
         return expressionStatement()
     }
 
+    // import NAME as NAME
+    private fun import(): Stmt {
+        var internalName = expression
+
+        consume(AS, "Expected 'as' after library name.")
+
+        val givenName = consume(IDENTIFIER, "Expected name after 'as'.")
+
+        return Stmt.Companion.Var(
+            name = givenName,
+            mutable = false,
+            initializer = internalName
+        )
+    }
+
     // fun NAME (PARAM, PARAM) { BODY }
     private fun function(kind: String): Stmt.Companion.Function {
         // fun NAME
-        var name: Token =
+        var name: Token? =
             if(match(IDENTIFIER))
                 previous
             else
-                Token(IDENTIFIER, "anonymous-${Math.random()}", 0, current)
+                null
 
         // ..NAME (
         consume(LEFT_PAREN, "Expected '(' after $kind name.")
@@ -130,7 +148,7 @@ class Parser {
         val name = consume(IDENTIFIER, "Expected class name.")
 
         var superclass: Expr.Companion.Var? = null
-        if(match(LEFT_ARROW)) {
+        if(match(INHERITS)) {
             consume(IDENTIFIER, "Expected superclass name after '<'.")
             superclass = Expr.Companion.Var(previous)
         }
@@ -335,7 +353,7 @@ class Parser {
     private fun factor(): Expr {
         var expr = unary()
 
-        while(match(SLASH, STAR)) {
+        while(match(SLASH, STAR, MODULO)) {
             expr = Expr.Companion.Binary(
                 operator = previous,
                 left = expr,
@@ -366,7 +384,7 @@ class Parser {
             else if(match(DOT))
                 expr = Expr.Companion.Get(
                     obj = expr,
-                    name = consume(IDENTIFIER, "Expected property name after '.'")
+                    name = consume(IDENTIFIER, "Expected property name after '.'.")
                 )
             else
                 break
@@ -395,18 +413,8 @@ class Parser {
             )
         }
 
-        if(match(IDENTIFIER)) {
-            val identifier = previous
-
-            if(match(LEFT_BRACKET)) {
-                val index = expression
-                consume(RIGHT_BRACKET, "Expected ']' after index.")
-
-                return Expr.Companion.ArrayGet(index, identifier)
-            }
-
-            return Expr.Companion.Var(identifier)
-        }
+        if(match(IDENTIFIER))
+            return Expr.Companion.Var(previous)
 
         if(match(LEFT_PAREN)) {
             var expr = expression

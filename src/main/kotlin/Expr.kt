@@ -13,7 +13,6 @@ abstract class Expr {
         fun visitGetExpr(expr: Get): R
         fun visitSetExpr(expr: Set): R
         fun visitThisExpr(expr: This): R
-        fun visitArrayGetExpr(expr: ArrayGet): R
         fun visitSuperExpr(expr: Super): R
     }
 
@@ -116,15 +115,6 @@ abstract class Expr {
         ): Expr() {
             override fun <R> accept(visitor: Visitor<R>): R {
                 return visitor.visitThisExpr(this)
-            }
-        }
-
-        data class ArrayGet(
-            val index: Expr,
-            val name: Token
-        ): Expr() {
-            override fun <R> accept(visitor: Visitor<R>): R {
-                return visitor.visitArrayGetExpr(this)
             }
         }
 
