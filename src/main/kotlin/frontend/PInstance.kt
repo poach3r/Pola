@@ -15,7 +15,7 @@ class PInstance(
         }
 
         clazz.findMethod(name.lexeme)?.let {
-            if(it is PFunction)
+            if (it is PFunction)
                 return it.bind(this)
 
             return it
@@ -30,7 +30,7 @@ class PInstance(
         }
 
         clazz.findMethod(name)?.let {
-            if(it is PFunction)
+            if (it is PFunction)
                 return it.bind(this)
 
             return it

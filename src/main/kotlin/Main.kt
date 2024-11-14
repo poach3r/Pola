@@ -10,21 +10,21 @@ import org.poach3r.frontend.Resolver
 fun main(args: Array<String>) {
     try {
         Main(Config.of(args)).main()
-    } catch(e: ArgError) {
+    } catch (e: ArgError) {
         System.err.println(e.message)
-    } catch(e: Error) {
+    } catch (e: Error) {
         e.printStackTrace()
     }
 }
 
-class Main(val config: Config, ) {
+class Main(val config: Config) {
     val scanner = Scanner()
     val parser = Parser()
     val interpreter = Interpreter()
     val resolver = Resolver(interpreter)
 
     fun main() {
-        if(config.file == null)
+        if (config.file == null)
             shell()
         else
             lang(config.file.readLines().joinToString("\n"))
@@ -35,7 +35,7 @@ class Main(val config: Config, ) {
     }
 
     private fun shell() {
-        while(true) {
+        while (true) {
             print("$ ")
             interpret(readln())
         }
@@ -46,12 +46,12 @@ class Main(val config: Config, ) {
             val statements = parser.parse(scanner.scanTokens(source))
             resolver.resolve(statements)
             interpreter.interpret(statements)
-        } catch(e: PError) {
+        } catch (e: PError) {
             System.err.println(e.message)
 
-            if(config.printStackTrace)
+            if (config.printStackTrace)
                 e.printStackTrace()
-        } catch(e: Error) {
+        } catch (e: Error) {
             e.printStackTrace()
             println() // HACK without these printlns the prompt is on the line with the error message, dunno why
         }

@@ -2,11 +2,10 @@ package org.poach3r.frontend.functions.standardLibrary
 
 import org.poach3r.frontend.Interpreter
 import org.poach3r.frontend.PCallable
-import org.poach3r.frontend.classes.StandardLibrary
 
 class Println(
     override val arity: Int = -1
-): PCallable {
+) : PCallable {
     override fun call(
         interpreter: Interpreter,
         arguments: List<Any>

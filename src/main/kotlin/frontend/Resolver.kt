@@ -8,7 +8,7 @@ import java.util.Stack
 
 class Resolver(
     private val interpreter: Interpreter
-): Expr.Visitor<Any>, Stmt.Visitor<Any> {
+) : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     private enum class FunctionType {
         NONE,
         BLOCK,
@@ -48,7 +48,7 @@ class Resolver(
         define(stmt.name)
 
         stmt.superclass?.let {
-            if(stmt.name.lexeme == it.name.lexeme)
+            if (stmt.name.lexeme == it.name.lexeme)
                 throw ResolvingError(
                     line = stmt.name.line,
                     msg = "A class cannot inherit from itself."
@@ -66,7 +66,7 @@ class Resolver(
         stmt.methods.forEach {
             resolveFunction(
                 function = it,
-                type = if(it.name!!.lexeme == "init")
+                type = if (it.name!!.lexeme == "init")
                     FunctionType.INITIALIZER
                 else
                     FunctionType.METHOD
@@ -92,7 +92,7 @@ class Resolver(
     }
 
     override fun visitVarExpr(expr: Expr.Companion.Var): Any {
-        if(!scopes.isEmpty() && scopes.peek()[expr.name.lexeme] == false)
+        if (!scopes.isEmpty() && scopes.peek()[expr.name.lexeme] == false)
             throw ResolvingError(
                 line = expr.name.line,
                 msg = "Cannot read local variable in it's own initializer."
@@ -110,7 +110,7 @@ class Resolver(
     }
 
     override fun visitFunctionStmt(stmt: Stmt.Companion.Function): Any {
-        if(stmt.name != null) {
+        if (stmt.name != null) {
             declare(stmt.name)
             define(stmt.name)
         }
@@ -129,7 +129,7 @@ class Resolver(
         resolve(stmt.condition)
         resolve(stmt.thenBranch)
 
-        if(stmt.elseBranch != null)
+        if (stmt.elseBranch != null)
             resolve(stmt.elseBranch)
 
         endScope()
@@ -183,10 +183,10 @@ class Resolver(
     }
 
     override fun visitSuperExpr(expr: Expr.Companion.Super): Any {
-        if(currentClass == ClassType.NONE)
+        if (currentClass == ClassType.NONE)
             throw ResolvingError(expr.keyword.line, "Cannot use 'super' outside of a class.")
 
-        if(currentClass != ClassType.SUBCLASS)
+        if (currentClass != ClassType.SUBCLASS)
             throw ResolvingError(expr.keyword.line, "Cannot use 'super' in a class with no superclass.")
 
         resolveLocal(expr, expr.keyword)
@@ -195,7 +195,7 @@ class Resolver(
     }
 
     override fun visitThisExpr(expr: Expr.Companion.This): Any {
-        if(currentClass == ClassType.NONE)
+        if (currentClass == ClassType.NONE)
             throw ResolvingError(expr.keyword.line, "Can't use 'this' outside of a class.")
 
         resolveLocal(expr, expr.keyword)
@@ -230,7 +230,7 @@ class Resolver(
     }
 
     override fun visitBreakStmt(stmt: Stmt.Companion.Break): Any {
-        if(currentFunction != FunctionType.BLOCK)
+        if (currentFunction != FunctionType.BLOCK)
             throw ResolvingError(
                 line = stmt.token.line,
                 msg = "Cannot break outside of a loop."
@@ -244,7 +244,7 @@ class Resolver(
     }
 
     override fun visitReturnStmt(stmt: Stmt.Companion.Return): Any {
-        if(currentFunction == FunctionType.INITIALIZER)
+        if (currentFunction == FunctionType.INITIALIZER)
             throw ResolvingError(
                 line = stmt.keyword.line,
                 msg = "Cannot return from an initializer."
@@ -276,7 +276,7 @@ class Resolver(
     }
 
     private fun declare(name: Token) {
-        if(scopes.isEmpty())
+        if (scopes.isEmpty())
             return
 
         val scope = scopes.peek()
@@ -288,7 +288,7 @@ class Resolver(
     }
 
     private fun define(name: Token) {
-        if(scopes.isEmpty())
+        if (scopes.isEmpty())
             return
 
         scopes.peek().put(
@@ -298,8 +298,8 @@ class Resolver(
     }
 
     private fun resolveLocal(expr: Expr, name: Token) {
-        for(i in scopes.size - 1 downTo 0) {
-            if(scopes[i].containsKey(name.lexeme)) {
+        for (i in scopes.size - 1 downTo 0) {
+            if (scopes[i].containsKey(name.lexeme)) {
                 interpreter.resolve(expr, scopes.size - 1 - i)
                 return
             }

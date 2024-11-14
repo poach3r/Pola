@@ -12,11 +12,11 @@ data class Config(
             var printStackTrace = false
             var file: File? = null
             args.forEachIndexed { index, arg ->
-                when(arg) {
+                when (arg) {
                     "-v" -> printStackTrace = true
                     "-f" -> {
                         with(File(consume(args, index))) {
-                            if(!this.isFile)
+                            if (!this.isFile)
                                 throw Error("File ${args[index + 1]} does not exist.")
 
                             file = this
@@ -29,7 +29,7 @@ data class Config(
         }
 
         private fun consume(args: Array<String>, index: Int): String {
-            if(args.size == index + 1)
+            if (args.size == index + 1)
                 throw ArgError(index, "Argument ${args[index]} requires option which was not found.")
 
             return args[index + 1]

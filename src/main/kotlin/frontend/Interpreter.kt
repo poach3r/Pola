@@ -31,7 +31,7 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     }
 
     override fun visitFunctionStmt(stmt: Stmt.Companion.Function): Any {
-        if(stmt.name == null) {
+        if (stmt.name == null) {
             return PFunction(
                 declaration = stmt,
                 closure = environment,
@@ -58,7 +58,7 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
 
     override fun visitVarStmt(stmt: Stmt.Companion.Var): Any {
         val value =
-            if(stmt.initializer is Expr.Companion.Var && stmt.initializer.name.lexeme == "Standard")
+            if (stmt.initializer is Expr.Companion.Var && stmt.initializer.name.lexeme == "Standard")
                 StandardLibrary().call(this, listOf())
             else
                 evaluate(stmt.initializer)
@@ -76,7 +76,7 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
         var superclass: Any? = null
         stmt.superclass?.let {
             superclass = evaluate(stmt.superclass)
-            if(superclass !is PForeignClass)
+            if (superclass !is PForeignClass)
                 throw RuntimeError(
                     line = stmt.superclass.name.line,
                     msg = "Superclass '$superclass' is not a class."
@@ -124,7 +124,10 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
                 return 0
             }
 
-            throw RuntimeError(stmt.name.line, "Failed to find enclosing environment for superclass '${it.name.lexeme}'. Contact a developer!'")
+            throw RuntimeError(
+                stmt.name.line,
+                "Failed to find enclosing environment for superclass '${it.name.lexeme}'. Contact a developer!'"
+            )
         }
 
         return 0
@@ -135,9 +138,9 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
         try {
             this.environment = Environment(previous)
 
-            if(isTruthy(evaluate(stmt.condition))) {
+            if (isTruthy(evaluate(stmt.condition))) {
                 execute(stmt.thenBranch)
-            } else if(stmt.elseBranch != null) {
+            } else if (stmt.elseBranch != null) {
                 execute(stmt.elseBranch)
             }
         } finally {
@@ -171,7 +174,7 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
                 execute(it)
             }
 
-            while(isTruthy(evaluate(stmt.condition))) {
+            while (isTruthy(evaluate(stmt.condition))) {
                 execute(stmt.body)
                 evaluate(stmt.incrementer)
             }
@@ -194,7 +197,7 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
         val value = evaluate(expr.value)
         val distance = locals.get(expr)
 
-        if(distance != null)
+        if (distance != null)
             environment.assignAt(
                 distance,
                 expr.name,
@@ -211,9 +214,9 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
         val left = evaluate(expr.left)
         val right = evaluate(expr.right)
 
-        when(expr.operator.type) {
+        when (expr.operator.type) {
             PLUS -> {
-                if(left is Double && right is Double)
+                if (left is Double && right is Double)
                     return left + right
 //
 //                if(left is String && right is String)
@@ -225,18 +228,22 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
 //                    msg = "Operands '$right' and '$left' must be numbers or strings."
 //                )
             }
+
             MINUS -> {
                 checkNumberOperands(expr.operator, left, right)
                 return left as Double - right as Double
             }
+
             SLASH -> {
                 checkNumberOperands(expr.operator, left, right)
-                return left as Double  / right as Double
+                return left as Double / right as Double
             }
+
             STAR -> {
                 checkNumberOperands(expr.operator, left, right)
-                return left as Double  * right as Double
+                return left as Double * right as Double
             }
+
             MODULO -> {
                 checkNumberOperands(expr.operator, left, right)
                 return left as Double % right as Double
@@ -246,10 +253,12 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
                 checkNumberOperands(expr.operator, left, right)
                 return left as Double > right as Double
             }
+
             GREATER_EQUAL -> {
                 checkNumberOperands(expr.operator, left, right)
-                return left as Double  >= right as Double
+                return left as Double >= right as Double
             }
+
             LESS -> {
                 checkNumberOperands(expr.operator, left, right)
                 return (left as Double) < right as Double
@@ -258,6 +267,7 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
                 checkNumberOperands(expr.operator, left, right)
                 return left as Double <= right as Double
             }
+
             BANG_EQUAL -> return left != right
             EQUAL_EQUAL -> return left == right
 
@@ -278,10 +288,10 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     override fun visitLogicalExpr(expr: Expr.Companion.Logical): Any {
         val left = evaluate(expr.left)
 
-        if(expr.operator.type == OR) {
-            if(isTruthy(left))
+        if (expr.operator.type == OR) {
+            if (isTruthy(left))
                 return left
-        } else if(!isTruthy(left))
+        } else if (!isTruthy(left))
             return left
 
         return evaluate(expr.right)
@@ -295,11 +305,13 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
                 checkNumberOperand(expr.operator, right)
                 return -(right as Double)
             }
+
             BANG -> return !isTruthy(right)
             PLUS_PLUS -> {
                 checkNumberOperand(expr.operator, right)
                 return (right as Double) + 1
             }
+
             MINUS_MINUS -> {
                 checkNumberOperand(expr.operator, right)
                 return (right as Double) - 1
@@ -326,7 +338,7 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     override fun visitCallExpr(expr: Expr.Companion.Call): Any {
         val callee = evaluate(expr.callee)
 
-        if(callee !is PCallable) {
+        if (callee !is PCallable) {
             throw RuntimeError(
                 line = expr.paren.line,
                 msg = "Cannot call '$callee' as it is not a function."
@@ -336,13 +348,14 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
         // get function arguments
         val arguments = ArrayList<Any>().apply {
             // if the function is a method
-            if(expr.callee is Expr.Companion.Get) {
+            if (expr.callee is Expr.Companion.Get) {
                 val result = evaluate(expr.callee.obj)
-                if(result is PInstance) {
+                if (result is PInstance) {
                     try {
                         // get the literal value of the class and pass it as an argument
                         this.add(result.get("__literalValue"))
-                    } catch (_: RuntimeError) { } // if its not a native class then it'll throw a RuntimeError
+                    } catch (_: RuntimeError) {
+                    } // if its not a native class then it'll throw a RuntimeError
                 }
             }
 
@@ -351,13 +364,13 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
         }
 
         // check if the provided arguments match the expected ones
-        if(arguments.size != callee.arity && callee.arity != -1)
+        if (arguments.size != callee.arity && callee.arity != -1)
             throw RuntimeError(expr.paren.line, "Expected ${callee.arity} arguments but got ${arguments.size}.")
 
         // call the function
         try {
             return callee.call(this, arguments)
-        } catch(e: RuntimeError) {
+        } catch (e: RuntimeError) {
             throw RuntimeError( // this allows errors thrown while calling to have vague line numbers
                 line = expr.paren.line,
                 msg = e.msg
@@ -368,8 +381,11 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     override fun visitGetExpr(expr: Expr.Companion.Get): Any {
         val obj = evaluate(expr.obj)
 
-        if(obj !is PInstance)
-            throw RuntimeError(expr.name.line, "Attempted to access non-existent property '${expr.name.lexeme}' of '$obj'.")
+        if (obj !is PInstance)
+            throw RuntimeError(
+                expr.name.line,
+                "Attempted to access non-existent property '${expr.name.lexeme}' of '$obj'."
+            )
 
         return obj.get(expr.name)
     }
@@ -377,8 +393,11 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     override fun visitSetExpr(expr: Expr.Companion.Set): Any {
         val obj = evaluate(expr.obj)
 
-        if(obj !is PInstance)
-            throw RuntimeError(expr.name.line, "Attempted to access field '${expr.name.lexeme}' of a non-instance object.")
+        if (obj !is PInstance)
+            throw RuntimeError(
+                expr.name.line,
+                "Attempted to access field '${expr.name.lexeme}' of a non-instance object."
+            )
 
         obj.set(expr.name, evaluate(expr.value))
 
@@ -408,14 +427,14 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     }
 
     private fun isTruthy(obj: Any): Boolean {
-        if(obj is Boolean)
+        if (obj is Boolean)
             return obj
 
         return false
     }
 
     private fun checkNumberOperand(operator: Token, operand: Any) {
-        if(operand is Double)
+        if (operand is Double)
             return
 
         throw RuntimeError(
@@ -425,7 +444,7 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     }
 
     private fun checkNumberOperands(operator: Token, left: Any, right: Any) {
-        if(left is Double && right is Double)
+        if (left is Double && right is Double)
             return
 
         throw RuntimeError(
@@ -435,16 +454,16 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     }
 
     fun stringify(obj: Any): String {
-        if(obj is Double) {
+        if (obj is Double) {
             var text = obj.toString()
 
-            if(text.endsWith(".0"))
+            if (text.endsWith(".0"))
                 text = text.substring(0, text.length - 2)
 
             return text
         }
 
-        if(obj is String)
+        if (obj is String)
             return obj.replace("\\n", "\n")
 
         return obj.toString()
@@ -457,7 +476,7 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
             statements.forEach {
                 execute(it)
             }
-        } catch(_: BreakError) {
+        } catch (_: BreakError) {
             return
         } finally {
             this.environment = previous
@@ -471,7 +490,7 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     private fun lookupVar(name: Token, expr: Expr): Any {
         val distance = locals[expr]
 
-        if(distance == null)
+        if (distance == null)
             return environment.get(name)
 
         return environment.getAt(distance, name.lexeme)!!

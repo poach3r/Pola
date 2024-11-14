@@ -1,7 +1,6 @@
 package org.poach3r.frontend.classes
 
 import frontend.functions.standardLibrary.arrayLibrary.Filter
-import org.poach3r.errors.RuntimeError
 import org.poach3r.frontend.Interpreter
 import org.poach3r.frontend.PCallable
 import org.poach3r.frontend.PInstance
@@ -25,7 +24,7 @@ class Strings(
         "replace" to Replace()
     ),
     override val superclass: PClass? = null,
-): PNativeClass{
+) : PNativeClass {
     override fun toString(fields: HashMap<String, Any>): String {
         return fields.get("__literalValue").toString()
     }
@@ -36,7 +35,7 @@ class Strings(
     ): Any {
         return PInstance(
             clazz = this,
-            fields = if(arguments.isNotEmpty())
+            fields = if (arguments.isNotEmpty())
                 hashMapOf("__literalValue" to arguments[0].toString())
             else
                 hashMapOf(),

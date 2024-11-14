@@ -4,7 +4,7 @@ import org.poach3r.frontend.Interpreter
 
 class Remove(
     override val arity: Int = 2,
-): ArrayFunc {
+) : ArrayFunc {
     override fun call(
         interpreter: Interpreter,
         arguments: List<Any>

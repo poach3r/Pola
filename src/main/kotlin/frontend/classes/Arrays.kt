@@ -4,9 +4,9 @@ import frontend.functions.standardLibrary.arrayLibrary.Filter
 import org.poach3r.frontend.PCallable
 import org.poach3r.frontend.functions.standardLibrary.arrayLibrary.ForEach
 import org.poach3r.frontend.functions.standardLibrary.arrayLibrary.Get
-import org.poach3r.frontend.functions.standardLibrary.arrayLibrary.Set
 import org.poach3r.frontend.functions.standardLibrary.arrayLibrary.Map
 import org.poach3r.frontend.functions.standardLibrary.arrayLibrary.Remove
+import org.poach3r.frontend.functions.standardLibrary.arrayLibrary.Set
 
 class Arrays(
     override val name: String = "Arrays",
@@ -20,7 +20,7 @@ class Arrays(
         "map" to Map(),
     ),
     override val superclass: PClass? = null,
-): PNativeClass{
+) : PNativeClass {
     override fun toString(fields: HashMap<String, Any>): String {
         return fields.get("__literalValue").toString()
     }

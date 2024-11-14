@@ -6,7 +6,7 @@ import org.poach3r.frontend.functions.standardLibrary.arrayLibrary.ArrayFunc
 
 class Filter(
     override val arity: Int = 2
-): ArrayFunc {
+) : ArrayFunc {
     override fun call(
         interpreter: Interpreter,
         arguments: List<Any>
@@ -15,7 +15,7 @@ class Filter(
         val function = getFunc(list, arguments[1])
         val result = list.filter {
             val result = function.call(interpreter, listOf(it))
-            if(result !is Boolean)
+            if (result !is Boolean)
                 throw RuntimeError(
                     msg = "Attempted to perform a filter operation with a function that does not return a boolean."
                 )

@@ -4,14 +4,14 @@ import org.poach3r.frontend.Interpreter
 
 class Map(
     override val arity: Int = 2
-): ArrayFunc {
+) : ArrayFunc {
     override fun call(
         interpreter: Interpreter,
         arguments: List<Any>
     ): Any {
         val list = getList(arguments[0])
         val function = getFunc(list, arguments[1])
-        val result = if(function.arity == 1) {
+        val result = if (function.arity == 1) {
             list.map {
                 function.call(interpreter, listOf(it))
             }

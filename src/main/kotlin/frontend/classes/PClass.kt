@@ -4,7 +4,7 @@ import org.poach3r.frontend.Interpreter
 import org.poach3r.frontend.PCallable
 import org.poach3r.frontend.functions.PFunction
 
-interface PClass: PCallable {
+interface PClass : PCallable {
     val name: String
     val superclass: PClass?
     val methods: HashMap<String, PCallable>

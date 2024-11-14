@@ -2,12 +2,11 @@ package org.poach3r.frontend.functions.standardLibrary.arrayLibrary
 
 import org.poach3r.frontend.Interpreter
 import org.poach3r.frontend.PCallable
-import org.poach3r.frontend.classes.StandardLibrary
 import org.poach3r.frontend.classes.Strings
 
 class Replace(
     override val arity: Int = 3
-): PCallable {
+) : PCallable {
     override fun call(
         interpreter: Interpreter,
         arguments: List<Any>

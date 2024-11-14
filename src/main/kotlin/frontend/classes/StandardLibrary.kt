@@ -19,7 +19,7 @@ data class StandardLibrary(
     ),
     override val arity: Int = 0,
     override val superclass: PClass? = null,
-): PNativeClass{
+) : PNativeClass {
     override fun toString(fields: HashMap<String, Any>): String {
         return this.toString()
     }

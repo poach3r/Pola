@@ -10,7 +10,7 @@ data class PForeignClass(
     override val superclass: PForeignClass? = null,
     override val methods: HashMap<String, PCallable>,
     override val arity: Int = methods["init"]?.arity ?: 0
-): PClass {
+) : PClass {
     override fun call(
         interpreter: Interpreter,
         arguments: List<Any>

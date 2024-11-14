@@ -10,7 +10,7 @@ interface PNativeClass : PClass {
     ): Any {
         return PInstance(
             clazz = this,
-            fields = if(arguments.isNotEmpty())
+            fields = if (arguments.isNotEmpty())
                 hashMapOf("__literalValue" to arguments)
             else
                 hashMapOf(),

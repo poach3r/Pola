@@ -22,8 +22,8 @@ abstract class Expr {
         data class Assign(
             val name: Token,
             val value: Expr
-        ): Expr() {
-            override fun <R> accept(visitor: Expr.Visitor<R>): R {
+        ) : Expr() {
+            override fun <R> accept(visitor: Visitor<R>): R {
                 return visitor.visitAssignExpr(this)
             }
         }
@@ -32,7 +32,7 @@ abstract class Expr {
             val left: Expr,
             val right: Expr,
             val operator: Token
-        ): Expr() {
+        ) : Expr() {
             override fun <R> accept(visitor: Visitor<R>): R {
                 return visitor.visitBinaryExpr(this)
             }
@@ -40,7 +40,7 @@ abstract class Expr {
 
         data class Grouping(
             val expr: Expr,
-        ): Expr() {
+        ) : Expr() {
             override fun <R> accept(visitor: Visitor<R>): R {
                 return visitor.visitGroupingExpr(this)
             }
@@ -48,7 +48,7 @@ abstract class Expr {
 
         data class Literal(
             val value: Any
-        ): Expr() {
+        ) : Expr() {
             override fun <R> accept(visitor: Visitor<R>): R {
                 return visitor.visitLiteralExpr(this)
             }
@@ -58,7 +58,7 @@ abstract class Expr {
             val left: Expr,
             val right: Expr,
             val operator: Token
-        ): Expr() {
+        ) : Expr() {
             override fun <R> accept(visitor: Visitor<R>): R {
                 return visitor.visitLogicalExpr(this)
             }
@@ -67,7 +67,7 @@ abstract class Expr {
         data class Unary(
             val operator: Token,
             val right: Expr
-        ): Expr() {
+        ) : Expr() {
             override fun <R> accept(visitor: Visitor<R>): R {
                 return visitor.visitUnaryExpr(this)
             }
@@ -75,7 +75,7 @@ abstract class Expr {
 
         data class Var(
             val name: Token
-        ): Expr() {
+        ) : Expr() {
             override fun <R> accept(visitor: Visitor<R>): R {
                 return visitor.visitVarExpr(this)
             }
@@ -85,8 +85,8 @@ abstract class Expr {
             val callee: Expr,
             val paren: Token,
             val arguments: List<Stmt>
-        ): Expr() {
-            override fun <R> accept(visitor: Expr.Visitor<R>): R {
+        ) : Expr() {
+            override fun <R> accept(visitor: Visitor<R>): R {
                 return visitor.visitCallExpr(this)
             }
         }
@@ -94,8 +94,8 @@ abstract class Expr {
         data class Get(
             val obj: Expr,
             val name: Token
-        ): Expr() {
-            override fun <R> accept(visitor: Expr.Visitor<R>): R {
+        ) : Expr() {
+            override fun <R> accept(visitor: Visitor<R>): R {
                 return visitor.visitGetExpr(this)
             }
         }
@@ -104,7 +104,7 @@ abstract class Expr {
             val obj: Expr,
             val name: Token,
             val value: Expr
-        ): Expr() {
+        ) : Expr() {
             override fun <R> accept(visitor: Visitor<R>): R {
                 return visitor.visitSetExpr(this)
             }
@@ -112,7 +112,7 @@ abstract class Expr {
 
         data class This(
             val keyword: Token
-        ): Expr() {
+        ) : Expr() {
             override fun <R> accept(visitor: Visitor<R>): R {
                 return visitor.visitThisExpr(this)
             }
@@ -121,7 +121,7 @@ abstract class Expr {
         data class Super(
             val keyword: Token,
             val method: Token
-        ): Expr() {
+        ) : Expr() {
             override fun <R> accept(visitor: Visitor<R>): R {
                 return visitor.visitSuperExpr(this)
             }

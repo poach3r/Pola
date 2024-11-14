@@ -7,12 +7,12 @@ import kotlin.system.exitProcess
 
 class Exit(
     override val arity: Int = 1
-): PCallable {
+) : PCallable {
     override fun call(
         interpreter: Interpreter,
         arguments: List<Any>
     ): Any {
-        if(arguments[0] !is Double)
+        if (arguments[0] !is Double)
             throw RuntimeError(
                 msg = "Cannot exit program with value '${arguments[0]}' as it is not a number."
             )

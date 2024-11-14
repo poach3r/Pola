@@ -13,7 +13,7 @@ class Environment(
         mutable: Boolean,
         value: Any
     ): Any {
-        if(variables.contains(token.lexeme))
+        if (variables.contains(token.lexeme))
             throw RuntimeError(
                 line = token.line,
                 msg = "Variable '${token.lexeme}' already exists."
@@ -29,7 +29,7 @@ class Environment(
         mutable: Boolean,
         value: Any
     ): Any {
-        if(variables.contains(name))
+        if (variables.contains(name))
             throw RuntimeError(
                 msg = "Variable '$name' already exists.",
             )
@@ -44,7 +44,7 @@ class Environment(
             return it.value
         }
 
-        if(enclosing != null)
+        if (enclosing != null)
             return enclosing.get(token)
 
         throw RuntimeError(
@@ -55,7 +55,7 @@ class Environment(
 
     fun assign(token: Token, value: Any) {
         variables.get(token.lexeme)?.let {
-            if(it.mutable) {
+            if (it.mutable) {
                 it.value = value
                 return
             }
@@ -66,7 +66,7 @@ class Environment(
             )
         }
 
-        if(enclosing != null) {
+        if (enclosing != null) {
             enclosing.assign(token, value)
             return
         }
@@ -84,7 +84,7 @@ class Environment(
     fun ancestor(distance: Int): Environment {
         var environment = this
 
-        for(i in 0..distance - 1) {
+        for (i in 0..distance - 1) {
             environment = environment.enclosing!!
         }
 

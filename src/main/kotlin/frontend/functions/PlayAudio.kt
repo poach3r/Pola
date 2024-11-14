@@ -7,13 +7,13 @@ import java.io.File
 
 class PlayAudio(
     override val arity: Int = 1
-): PCallable {
+) : PCallable {
     override fun call(
         interpreter: Interpreter,
         arguments: List<Any>
     ): Any {
         val file = File(interpreter.stringify(arguments[0]))
-        if(!file.exists() || !file.isFile) {
+        if (!file.exists() || !file.isFile) {
             throw RuntimeError(
                 msg = "File '${file.absolutePath}' does not exist or is not a file.'"
             )

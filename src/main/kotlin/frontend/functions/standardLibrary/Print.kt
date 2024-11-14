@@ -5,7 +5,7 @@ import org.poach3r.frontend.PCallable
 
 class Print(
     override val arity: Int = -1
-): PCallable {
+) : PCallable {
     override fun call(
         interpreter: Interpreter,
         arguments: List<Any>

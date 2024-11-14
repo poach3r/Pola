@@ -14,7 +14,7 @@ class Parser {
         get() = tokens[current]
     private val previous: Token
         get() {
-            if(current == 0)
+            if (current == 0)
                 return peek
 
             return tokens[current - 1]
@@ -29,51 +29,51 @@ class Parser {
         this.tokens = tokens
         current = 0
 
-        while(!isAtEnd)
+        while (!isAtEnd)
             statements.add(declaration())
 
         return statements
     }
 
     private fun declaration(): Stmt {
-        if(match(IMPORT))
+        if (match(IMPORT))
             return import()
 
-        if(match(CLASS))
+        if (match(CLASS))
             return classDeclaration()
 
-        if(match(FUN))
+        if (match(FUN))
             return function("function")
 
-        if(match(VAR))
+        if (match(VAR))
             return varDeclaration(true)
 
-        if(match(VAL))
+        if (match(VAL))
             return varDeclaration(false)
 
         return statement()
     }
 
     private fun statement(): Stmt {
-        if(match(PRINT))
+        if (match(PRINT))
             return printStatement()
 
-        if(match(RETURN))
+        if (match(RETURN))
             return returnStatement()
 
-        if(match(LEFT_BRACE))
+        if (match(LEFT_BRACE))
             return Stmt.Companion.Block(block())
 
-        if(match(IF))
+        if (match(IF))
             return ifStatement()
 
-        if(match(WHILE))
+        if (match(WHILE))
             return whileStatement()
 
-        if(match(FOR))
+        if (match(FOR))
             return forStatement()
 
-        if(match(BREAK))
+        if (match(BREAK))
             return breakStatement()
 
         return expressionStatement()
@@ -98,7 +98,7 @@ class Parser {
     private fun function(kind: String): Stmt.Companion.Function {
         // fun NAME
         var name: Token? =
-            if(match(IDENTIFIER))
+            if (match(IDENTIFIER))
                 previous
             else
                 null
@@ -108,10 +108,10 @@ class Parser {
 
         // ..(PARAM, PARAM
         val parameters = ArrayList<Token>()
-        if(!check(RIGHT_PAREN)) {
+        if (!check(RIGHT_PAREN)) {
             do {
                 parameters.add(consume(IDENTIFIER, "Expected parameter name."))
-            } while(match(COMMA))
+            } while (match(COMMA))
         }
 
         // ..PARAM, PARAM)
@@ -148,7 +148,7 @@ class Parser {
         val name = consume(IDENTIFIER, "Expected class name.")
 
         var superclass: Expr.Companion.Var? = null
-        if(match(INHERITS)) {
+        if (match(INHERITS)) {
             consume(IDENTIFIER, "Expected superclass name after '<'.")
             superclass = Expr.Companion.Var(previous)
         }
@@ -158,7 +158,7 @@ class Parser {
 
         // ..{ BODY
         val methods = ArrayList<Stmt.Companion.Function>()
-        while(!check(RIGHT_BRACE) && !isAtEnd)
+        while (!check(RIGHT_BRACE) && !isAtEnd)
             methods.add(function("method"))
 
         // ..BODY }
@@ -197,8 +197,9 @@ class Parser {
 
         return Stmt.Companion.If(
             condition = condition,
-            thenBranch =  statement(), // ..) THEN
-            elseBranch = if(match(ELSE)) statement() else null) // ..else THEN
+            thenBranch = statement(), // ..) THEN
+            elseBranch = if (match(ELSE)) statement() else null
+        ) // ..else THEN
     }
 
     private fun whileStatement(): Stmt {
@@ -244,7 +245,7 @@ class Parser {
     private fun block(): List<Stmt> {
         val statements: ArrayList<Stmt> = arrayListOf()
 
-        while(!check(RIGHT_BRACE) && !isAtEnd) { // { STATEMENTS
+        while (!check(RIGHT_BRACE) && !isAtEnd) { // { STATEMENTS
             statements.add(declaration())
         }
 
@@ -256,14 +257,14 @@ class Parser {
     private fun assignment(): Expr {
         var expr = or()
 
-        if(match(EQUAL)) { // NAME =
+        if (match(EQUAL)) { // NAME =
             if (expr is Expr.Companion.Var)
                 return Expr.Companion.Assign(
                     name = expr.name,
                     value = assignment() // ..= VALUE
                 )
 
-            if(expr is Expr.Companion.Get)
+            if (expr is Expr.Companion.Get)
                 return Expr.Companion.Set(
                     name = expr.name,
                     value = assignment(),
@@ -281,7 +282,7 @@ class Parser {
     private fun or(): Expr {
         var expr = and()
 
-        while(match(OR)) {
+        while (match(OR)) {
             expr = Expr.Companion.Logical(
                 operator = previous, // VALUE |
                 left = expr, // VALUE
@@ -297,7 +298,7 @@ class Parser {
     private fun and(): Expr {
         var expr = equality()
 
-        while(match(AND)) {
+        while (match(AND)) {
             expr = Expr.Companion.Logical(
                 operator = previous, // VALUE &
                 left = expr, // VALUE
@@ -311,7 +312,7 @@ class Parser {
     private fun equality(): Expr {
         var expr = comparison()
 
-        while(match(BANG_EQUAL, EQUAL_EQUAL)) {
+        while (match(BANG_EQUAL, EQUAL_EQUAL)) {
             expr = Expr.Companion.Binary(
                 operator = previous,
                 left = expr,
@@ -325,7 +326,7 @@ class Parser {
     private fun comparison(): Expr {
         var expr = term()
 
-        while(match(GREATER, GREATER_EQUAL, LESS, LESS_EQUAL)) {
+        while (match(GREATER, GREATER_EQUAL, LESS, LESS_EQUAL)) {
             expr = Expr.Companion.Binary(
                 operator = previous,
                 left = expr,
@@ -339,7 +340,7 @@ class Parser {
     private fun term(): Expr {
         var expr = factor()
 
-        while(match(MINUS, PLUS)) {
+        while (match(MINUS, PLUS)) {
             expr = Expr.Companion.Binary(
                 operator = previous,
                 left = expr,
@@ -353,7 +354,7 @@ class Parser {
     private fun factor(): Expr {
         var expr = unary()
 
-        while(match(SLASH, STAR, MODULO)) {
+        while (match(SLASH, STAR, MODULO)) {
             expr = Expr.Companion.Binary(
                 operator = previous,
                 left = expr,
@@ -365,7 +366,7 @@ class Parser {
     }
 
     private fun unary(): Expr {
-        if(match(BANG, MINUS, PLUS_PLUS, MINUS_MINUS)) {
+        if (match(BANG, MINUS, PLUS_PLUS, MINUS_MINUS)) {
             return Expr.Companion.Unary(
                 operator = previous,
                 right = unary()
@@ -378,10 +379,10 @@ class Parser {
     private fun call(): Expr {
         var expr = primary()
 
-        while(true) {
-            if(match(LEFT_PAREN))
+        while (true) {
+            if (match(LEFT_PAREN))
                 expr = finishCall(expr)
-            else if(match(DOT))
+            else if (match(DOT))
                 expr = Expr.Companion.Get(
                     obj = expr,
                     name = consume(IDENTIFIER, "Expected property name after '.'.")
@@ -394,16 +395,16 @@ class Parser {
     }
 
     private fun primary(): Expr {
-        if(match(FALSE))
+        if (match(FALSE))
             return Expr.Companion.Literal(false)
 
-        if(match(TRUE))
+        if (match(TRUE))
             return Expr.Companion.Literal(true)
 
-        if(match(NUMBER, STRING))
+        if (match(NUMBER, STRING))
             return Expr.Companion.Literal(previous.literal)
 
-        if(match(SUPER)) {
+        if (match(SUPER)) {
             val keyword = previous
             consume(DOT, "Expected '.' after 'super'")
 
@@ -413,16 +414,16 @@ class Parser {
             )
         }
 
-        if(match(IDENTIFIER))
+        if (match(IDENTIFIER))
             return Expr.Companion.Var(previous)
 
-        if(match(LEFT_PAREN)) {
+        if (match(LEFT_PAREN)) {
             var expr = expression
             consume(RIGHT_PAREN, "Expected ')' after expression.")
             return Expr.Companion.Grouping(expr)
         }
 
-        if(match(THIS))
+        if (match(THIS))
             return Expr.Companion.This(previous)
 
         throw ParsingError(peek.line, "Expected expression but got '${peek.lexeme}.")
@@ -438,7 +439,7 @@ class Parser {
     }
 
     private fun check(type: TokenType): Boolean {
-        if(isAtEnd)
+        if (isAtEnd)
             return false
 
         return peek.type == type
@@ -452,7 +453,7 @@ class Parser {
     }
 
     private fun consume(type: TokenType, message: String): Token {
-        if(check(type))
+        if (check(type))
             return advance()
 
         throw ParsingError(
@@ -464,7 +465,7 @@ class Parser {
     private fun finishCall(callee: Expr): Expr {
         val arguments = ArrayList<Stmt>()
 
-        if(!check(RIGHT_PAREN)) {
+        if (!check(RIGHT_PAREN)) {
             do {
                 arguments.add(declaration())
             } while (match(COMMA))

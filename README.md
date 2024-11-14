@@ -1,18 +1,23 @@
 # Table of Contents
+
 1. [About](#about)
 2. [Feature Showcase](#feature-showcase)
 3. [Libraries](#libraries)
 
 # About
+
 Pola is an interpreted object-oriented programming language written in Kotlin created for learning purposes.
 
 # Feature Showcase
+
 Note: Examples marked with a "*" assume that `import Standard as std` has been declared.
 
 ## Comments
+
 `# This is a comment`
 
 ## Imports
+
 ```
 import Standard as std
 val array = std.array
@@ -20,6 +25,7 @@ val println = std.println
 ```
 
 ## Math
+
 ```
 var x = 10
 x = x + 10 # 20
@@ -32,12 +38,14 @@ x = --x # 0
 ```
 
 ## Variables
+
 ```
 var mutable = "This is mutable."
 val immutable = "This is immutable."
 ```
 
 ## Primitives
+
 ```
 val num = 0
 val string = ""
@@ -45,12 +53,14 @@ val bool = true
 ```
 
 ## Objects *
+
 ```
 val string = std.string("")
 val array = std.array(0, 1)
 ```
 
 ## Control Flow
+
 ```
 if(true) {
 }
@@ -63,6 +73,7 @@ for(i = 0; i < 10; i = ++i) {
 ```
 
 ## First-Class Functions *
+
 ```
 fun isEven(value) {
     return value % 2 == 0
@@ -76,6 +87,7 @@ val evenY = y.filter(isEven) # [2.0, 4.0]
 ```
 
 ## Anonymous Functions *
+
 ```
 val x = std.array(0, 1, 2, 3)
 val xPlusOne = x.map(fun (value) {
@@ -84,6 +96,7 @@ val xPlusOne = x.map(fun (value) {
 ```
 
 ## Classes *
+
 ```
 class Person {
     init(name, age) {
@@ -108,6 +121,7 @@ val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
 # Libraries
 
 ## Standard
+
 | Name    | Returns      | Parameters  | Arity    | Comments                    |
 |---------|--------------|-------------|----------|-----------------------------|
 | exit    | n/a          | exitValue   | 1        |                             |
@@ -117,6 +131,7 @@ val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
 | string  | string (obj) | text        | 1        | See [Strings](#strings)     |
 
 ### Arrays
+
 | Name    | Returns | Parameters      | Arity | Comments                                                                                                                          |
 |---------|---------|-----------------|-------|-----------------------------------------------------------------------------------------------------------------------------------|
 | get     | any     | index           | 2     |                                                                                                                                   |
@@ -127,6 +142,7 @@ val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
 | map     | array   | applicationFunc | 2     | applicationFunc will be passed each item of the array and optionally the index of the item and should return a replacement value. |
 
 ### Strings
+
 | Name    | Returns | Parameters         | Arity | Comments                                                                                                                                     |
 |---------|---------|--------------------|-------|----------------------------------------------------------------------------------------------------------------------------------------------|
 | get     | string  | index              | 2     |                                                                                                                                              |

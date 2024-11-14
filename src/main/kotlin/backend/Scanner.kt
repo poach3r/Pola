@@ -70,25 +70,29 @@ class Scanner {
             ',' -> addToken(COMMA)
             '.' -> addToken(DOT)
             '!' -> addToken(
-                    if(match('=')) BANG_EQUAL
-                    else BANG
-                )
-            '=' -> addToken(if(match('=')) EQUAL_EQUAL else EQUAL)
+                if (match('=')) BANG_EQUAL
+                else BANG
+            )
+
+            '=' -> addToken(if (match('=')) EQUAL_EQUAL else EQUAL)
             '>' -> addToken(
-                    if(match('=')) GREATER_EQUAL
-                    else GREATER
-                )
+                if (match('=')) GREATER_EQUAL
+                else GREATER
+            )
+
             '<' -> addToken(
-                    if(match('=')) LESS_EQUAL
-                    else if(match('-')) LEFT_ARROW
-                    else LESS
-                )
+                if (match('=')) LESS_EQUAL
+                else if (match('-')) LEFT_ARROW
+                else LESS
+            )
+
             '-' -> addToken(
-                    if(match('-')) MINUS_MINUS
-                    else if(match('>')) RIGHT_ARROW
-                    else MINUS
-                )
-            '+' -> addToken(if(match('+')) PLUS_PLUS else PLUS)
+                if (match('-')) MINUS_MINUS
+                else if (match('>')) RIGHT_ARROW
+                else MINUS
+            )
+
+            '+' -> addToken(if (match('+')) PLUS_PLUS else PLUS)
             '%' -> addToken(MODULO)
             ';' -> addToken(SEMICOLON)
             '*' -> addToken(STAR)
@@ -100,15 +104,14 @@ class Scanner {
                 while (peek() != '\n' && !isAtEnd)
                     advance()
             }
+
             '[' -> addToken(LEFT_BRACKET)
             ']' -> addToken(RIGHT_BRACKET)
             else -> {
-                if(isDigit(c))
+                if (isDigit(c))
                     number()
-
                 else if (isAlpha(c))
                     identifier()
-
                 else
                     throw ParsingError(line, "Unexpected character '$c'")
             }
@@ -157,9 +160,9 @@ class Scanner {
 
     private fun string() {
         while (peek() != '"' && !isAtEnd) {
-            if (peek() == '\n') 
+            if (peek() == '\n')
                 line++
-            
+
             advance()
         }
 
@@ -175,19 +178,19 @@ class Scanner {
     }
 
     private fun isDigit(c: Char): Boolean {
-        return c >= '0' && c <= '9';
+        return c >= '0' && c <= '9'
     }
 
     private fun number() {
         while (isDigit(peek()))
-            advance();
+            advance()
 
         // Look for a fractional part.
         if (peek() == '.' && isDigit(peekNext())) {
             // Consume the "."
-            advance();
+            advance()
 
-            while (isDigit(peek())) advance();
+            while (isDigit(peek())) advance()
         }
 
         addToken(
@@ -198,25 +201,25 @@ class Scanner {
 
     private fun peekNext(): Char {
         if (current + 1 >= source.length)
-            return ' ';
+            return ' '
 
         return source[current + 1]
     }
 
     private fun identifier() {
         while (isAlphaNumeric(peek()))
-            advance();
+            advance()
 
-        addToken(keywords[source.substring(start, current)] ?: IDENTIFIER);
+        addToken(keywords[source.substring(start, current)] ?: IDENTIFIER)
     }
 
     private fun isAlpha(c: Char): Boolean {
         return (c >= 'a' && c <= 'z') ||
                 (c >= 'A' && c <= 'Z') ||
-                c == '_';
+                c == '_'
     }
 
     private fun isAlphaNumeric(c: Char): Boolean {
-        return isAlpha(c) || isDigit(c);
+        return isAlpha(c) || isDigit(c)
     }
 }
