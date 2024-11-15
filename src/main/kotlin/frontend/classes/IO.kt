@@ -12,7 +12,7 @@ class IO(
         "print" to Print(),
         "println" to Println(),
         "readln" to Readln(),
-        "files" to File()
+        "file" to File()
     ),
     override val arity: Int = 0,
     override val superclass: PClass? = null,
