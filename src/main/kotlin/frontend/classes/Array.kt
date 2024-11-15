@@ -7,9 +7,10 @@ import org.poach3r.frontend.functions.arrays.Get
 import org.poach3r.frontend.functions.arrays.Map
 import org.poach3r.frontend.functions.arrays.Remove
 import org.poach3r.frontend.functions.arrays.Set
+import kotlin.String
 
-class Arrays(
-    override val name: String = "Arrays",
+class Array(
+    override val name: String = "Array",
     override val arity: Int = -1,
     override val methods: HashMap<String, PCallable> = hashMapOf(
         "get" to Get(),

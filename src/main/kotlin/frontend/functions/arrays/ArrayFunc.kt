@@ -3,13 +3,13 @@ package org.poach3r.frontend.functions.arrays
 import org.poach3r.errors.RuntimeError
 import org.poach3r.frontend.Interpreter
 import org.poach3r.frontend.PCallable
-import org.poach3r.frontend.classes.Arrays
-import org.poach3r.frontend.classes.Strings
+import org.poach3r.frontend.classes.Array
+import org.poach3r.frontend.classes.String
 import org.poach3r.frontend.functions.PFunction
 
 interface ArrayFunc : PCallable {
     fun getList(obj: Any): ArrayList<Any> {
-        if (obj is String)
+        if (obj is kotlin.String)
             return obj.toCharArray().toList().map(Char::toString) as ArrayList<Any>
         else
             return ArrayList<Any>(obj as ArrayList<Any>)
@@ -41,15 +41,15 @@ interface ArrayFunc : PCallable {
     }
 
     fun getResult(list: List<Any>, arg: Any, interpreter: Interpreter): Any {
-        if (arg is String) {
+        if (arg is kotlin.String) {
             interpreter.globals.variables.get("strings")?.let {
-                return (it.value as Strings).call(interpreter, listOf(list.joinToString("")))
+                return (it.value as String).call(interpreter, listOf(list.joinToString("")))
             }
 
             return list.joinToString("")
         }
 
         else
-            return (interpreter.globals.variables.get("arrays")!!.value as Arrays).call(interpreter, list)
+            return (interpreter.globals.variables.get("arrays")!!.value as Array).call(interpreter, list)
     }
 }

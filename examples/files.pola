@@ -1,7 +1,7 @@
 import("pola/io")
 
 val exampleFile = io.files("examples/example.txt")
-if(exampleFile.isFile())
+if(exampleFile.exists())
     exampleFile.delete()
 
 exampleFile.create()
