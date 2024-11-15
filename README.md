@@ -17,7 +17,6 @@ Pola is an interpreted object-oriented programming language written in Kotlin cr
 # Imports
 import("pola/io")
 import("pola/array")
-import("pola/string")
 
 # Class Definitions
 class Person {
@@ -27,7 +26,7 @@ class Person {
     }
 
     toString() {
-        return string(this.name + " is " + this.age + " years old.")
+        return this.name + " is " + this.age + " years old."
     }
 
     isAdult() {
@@ -91,13 +90,12 @@ val immutable = "This is immutable."
 ## Primitives
 ```
 val num = 0
-val string = ""
 val bool = true
 ```
 
 ## Objects *
 ```
-val str = string("string")
+val str = "string"
 val arr = array(0, 1)
 ```
 
@@ -119,11 +117,11 @@ fun isEven(value) {
     return value % 2 == 0
 }
 
-val x = 5
-val isXEven = isEven(x) # false
+val num = 5
+val isNumEven = isEven(x) # false
 
-val y = array(1, 2, 3, 4)
-val evenY = y.filter(isEven) # [2.0, 4.0]
+val numArray = array(1, 2, 3, 4)
+val evenNumArray = numArray.filter(isEven) # [2.0, 4.0]
 ```
 
 ### Anonymous Functions *
@@ -136,28 +134,29 @@ val xPlusOne = x.map(fun (value) {
 
 ## Classes *
 ```
-class Person {
-    init(name, age) {
+class Product {
+    init(name, brand, price) {
         this.name = name
-        this.age = age
+        this.brand = brand
+        this.price = price
     }
     
     toString() {
-        return string(this.name + " is " + this.age + " years old.")
+        return "The " + this.name + " from " + this.brand + " costs $" + this.price + "."
     }
 }
 
-class JimmyCarter inherits Person {
+class MottsAppleSauce inherits Product {
     init() {
-        super.init("Jimmy Carter", 100)
+        super.init("Applesauce", "Mott's", 7)
     }
 }
 
-val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
+val applesauce = MottsAppleSauce() # Instance of MottsAppleSauce
+val coke = Product("Coke", "Coca Cola", 2) # Instance of Product
 ```
 
 # Libraries
-
 ## IO
 | Name    | Returns | Parameters  | Arity    | Comments                             |
 |---------|---------|-------------|----------|--------------------------------------|
