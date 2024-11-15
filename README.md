@@ -9,16 +9,16 @@
 Pola is an interpreted object-oriented programming language written in Kotlin created for learning purposes.
 
 # Feature Showcase
-Note: Examples marked with a "*" assume that `val std = import("Standard")` has been declared.
+Note: Examples marked with a "*" assume that some libraries have been imported.
 
 ## Comments
 `# This is a comment`
 
 ## Imports
 ```
-val std = import("Standard")
-val println = std.println # Allows you to discard the "std." prefix
-val array = std.array
+val io = import("IO") # An instance of the class IO
+val arrays = import("Arrays") # A reference to the class Arrays
+val println = io.println # A reference to the function io.println
 ```
 
 ## Math
@@ -48,8 +48,8 @@ val bool = true
 
 ## Objects *
 ```
-val string = std.string("")
-val array = std.array(0, 1)
+val string = strings("string")
+val array = arrays(0, 1)
 ```
 
 ## Control Flow
@@ -73,13 +73,13 @@ fun isEven(value) {
 val x = 5
 val isXEven = isEven(x) # false
 
-val y = std.array(1, 2, 3, 4)
+val y = arrays(1, 2, 3, 4)
 val evenY = y.filter(isEven) # [2.0, 4.0]
 ```
 
 ## Anonymous Functions *
 ```
-val x = std.array(0, 1, 2, 3)
+val x = arrays(0, 1, 2, 3)
 val xPlusOne = x.map(fun (value) {
     return ++value
 }) # [1.0, 2.0, 3.0, 4.0]
@@ -94,7 +94,7 @@ class Person {
     }
     
     toString() {
-        return std.string(this.name + " is " + this.age + " years old.")
+        return strings(this.name + " is " + this.age + " years old.")
     }
 }
 
@@ -109,17 +109,15 @@ val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
 
 # Libraries
 
-## Standard
+## IO
 
 | Name    | Returns      | Parameters  | Arity    | Comments                    |
 |---------|--------------|-------------|----------|-----------------------------|
-| exit    | n/a          | exitValue   | 1        |                             |
+| readln  | string (obj) | n/a         | 0        |                             |
 | print   | string (obj) | textToPrint | infinite | Does not include a newline. |
 | println | string (obj) | textToPrint | infinite | Includes a newline.         |
-| array   | array        | values      | infinite | See [Arrays](#arrays)       |
-| string  | string (obj) | text        | 1        | See [Strings](#strings)     |
 
-### Arrays
+## Arrays
 
 | Name    | Returns | Parameters      | Arity | Comments                                                                                                                          |
 |---------|---------|-----------------|-------|-----------------------------------------------------------------------------------------------------------------------------------|
@@ -130,7 +128,7 @@ val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
 | foreach | n/a     | applicationFunc | 2     | applicationFunc will be passed each item of the array and optionally the index of the item, returned values will be discarded.    |
 | map     | array   | applicationFunc | 2     | applicationFunc will be passed each item of the array and optionally the index of the item and should return a replacement value. |
 
-### Strings
+## Strings
 
 | Name    | Returns | Parameters         | Arity | Comments                                                                                                                                     |
 |---------|---------|--------------------|-------|----------------------------------------------------------------------------------------------------------------------------------------------|
@@ -142,8 +140,14 @@ val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
 | map     | string  | applicationFunc    | 2     | applicationFunc will be passed each character of the string and optionally the index of the character and should return a replacement value. |
 | replace | string  | replacee, replacer | 3     | All occurrences of replacee in the string will be replaced with replacer.                                                                    |
 
+## Sys
+
+| Name | Returns | Parameters | Arity | Comments |
+|------|---------|------------|-------|----------|
+| exit | n/a     | value      | 1     |          |
+
 # Todo
 - Create a Javadoc
 - Improve README documentation
 - Remove primitives
-- Add libraries and functions for IO
+- Add functions for IO

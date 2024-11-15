@@ -2,7 +2,7 @@ package frontend.functions.standardLibrary.arrayLibrary
 
 import org.poach3r.errors.RuntimeError
 import org.poach3r.frontend.Interpreter
-import org.poach3r.frontend.functions.standardLibrary.arrayLibrary.ArrayFunc
+import org.poach3r.frontend.functions.arrays.ArrayFunc
 
 class Filter(
     override val arity: Int = 2

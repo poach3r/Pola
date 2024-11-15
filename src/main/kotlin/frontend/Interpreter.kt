@@ -8,7 +8,6 @@ import org.poach3r.errors.BreakError
 import org.poach3r.errors.ReturnError
 import org.poach3r.errors.RuntimeError
 import org.poach3r.frontend.classes.PForeignClass
-import org.poach3r.frontend.classes.StandardLibrary
 import org.poach3r.frontend.functions.Import
 import org.poach3r.frontend.functions.PFunction
 

@@ -32,5 +32,7 @@ interface PClass : PCallable {
         return 0
     }
 
-    fun toString(fields: HashMap<String, Any>): String
+    fun toString(fields: HashMap<String, Any>): String {
+        return this.toString()
+    }
 }

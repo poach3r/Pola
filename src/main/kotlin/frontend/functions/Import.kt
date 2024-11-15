@@ -3,7 +3,10 @@ package org.poach3r.frontend.functions
 import org.poach3r.errors.RuntimeError
 import org.poach3r.frontend.Interpreter
 import org.poach3r.frontend.PCallable
-import org.poach3r.frontend.classes.StandardLibrary
+import org.poach3r.frontend.classes.Arrays
+import org.poach3r.frontend.classes.IO
+import org.poach3r.frontend.classes.Strings
+import org.poach3r.frontend.classes.Sys
 
 class Import(
     override val arity: Int = 1
@@ -18,7 +21,10 @@ class Import(
             )
 
         return when(arguments[0] as String) {
-            "Standard" -> StandardLibrary().call(interpreter, listOf())
+            "Strings" -> Strings()
+            "Arrays" -> Arrays()
+            "IO" -> IO().call(interpreter, listOf())
+            "Sys" -> Sys().call(interpreter, listOf())
             else -> throw RuntimeError(
                 msg= "Cannot find library '${arguments[0]}'.",
             )

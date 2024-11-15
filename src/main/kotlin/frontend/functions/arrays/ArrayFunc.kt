@@ -1,4 +1,4 @@
-package org.poach3r.frontend.functions.standardLibrary.arrayLibrary
+package org.poach3r.frontend.functions.arrays
 
 import org.poach3r.errors.RuntimeError
 import org.poach3r.frontend.Interpreter

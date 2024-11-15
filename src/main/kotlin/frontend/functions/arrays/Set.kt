@@ -1,9 +1,9 @@
-package org.poach3r.frontend.functions.standardLibrary.arrayLibrary
+package org.poach3r.frontend.functions.arrays
 
 import org.poach3r.frontend.Interpreter
 
-class Remove(
-    override val arity: Int = 2,
+class Set(
+    override val arity: Int = 3
 ) : ArrayFunc {
     override fun call(
         interpreter: Interpreter,
@@ -12,7 +12,11 @@ class Remove(
         val list = getList(arguments[0])
         val index = getIndex(list, arguments[1])
 
-        list.removeAt(index)
+        list[index] =
+            if (arguments[0] is String)
+                arguments[2].toString()
+            else
+                arguments[2]
 
         return getResult(list, arguments[0], interpreter)
     }
