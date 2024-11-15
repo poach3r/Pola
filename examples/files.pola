@@ -1,0 +1,12 @@
+import("pola/io")
+
+val exampleFile = io.files("examples/example.txt")
+if(exampleFile.isFile())
+    exampleFile.delete()
+
+exampleFile.create()
+exampleFile.write("Hello, world!")
+
+io.println(exampleFile.read())
+
+exampleFile.delete()

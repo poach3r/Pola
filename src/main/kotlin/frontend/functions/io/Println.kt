@@ -2,10 +2,11 @@ package org.poach3r.frontend.functions.io
 
 import org.poach3r.frontend.Interpreter
 import org.poach3r.frontend.PCallable
+import org.poach3r.frontend.classes.Strings
 
 class Println(
     override val arity: Int = -1
-) : PCallable {
+) : IOFunc {
     override fun call(
         interpreter: Interpreter,
         arguments: List<Any>
@@ -15,7 +16,6 @@ class Println(
         }.joinToString(" ")
         println(text)
 
-        return 0
-        //return return (interpreter.globals.variables.get("Standard")!!.value as StandardLibrary).methods.get("array")!!.call(interpreter, list)
+        return getVal(interpreter, text)
     }
 }

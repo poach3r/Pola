@@ -17,7 +17,7 @@ data class Config(
                     "-f" -> {
                         with(File(consume(args, index))) {
                             if (!this.isFile)
-                                throw Error("File ${args[index + 1]} does not exist.")
+                                throw ArgError(index, "File ${args[index + 1]} does not exist.")
 
                             file = this
                         }

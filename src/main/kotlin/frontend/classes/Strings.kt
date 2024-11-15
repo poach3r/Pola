@@ -35,10 +35,7 @@ class Strings(
     ): Any {
         return PInstance(
             clazz = this,
-            fields = if (arguments.isNotEmpty())
-                hashMapOf("__literalValue" to arguments[0].toString())
-            else
-                hashMapOf(),
+            fields = hashMapOf("__literalValue" to arguments[0].toString())
         )
     }
 }

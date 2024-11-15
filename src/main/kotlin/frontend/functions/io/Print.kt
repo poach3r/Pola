@@ -2,18 +2,21 @@ package frontend.functions.standardLibrary
 
 import org.poach3r.frontend.Interpreter
 import org.poach3r.frontend.PCallable
+import org.poach3r.frontend.classes.Strings
+import org.poach3r.frontend.functions.io.IOFunc
 
 class Print(
     override val arity: Int = -1
-) : PCallable {
+) : IOFunc {
     override fun call(
         interpreter: Interpreter,
         arguments: List<Any>
     ): Any {
-        val list = arguments.map {
+        val text = arguments.map {
             interpreter.stringify(it)
         }.joinToString(" ")
-        print(list)
-        return list
+        print(text)
+
+        return getVal(interpreter, text)
     }
 }

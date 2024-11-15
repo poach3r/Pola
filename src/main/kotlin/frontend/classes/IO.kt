@@ -10,7 +10,8 @@ class IO(
     override val methods: HashMap<String, PCallable> = hashMapOf(
         "print" to Print(),
         "println" to Println(),
-        "readln" to Readln()
+        "readln" to Readln(),
+        "files" to Files()
     ),
     override val arity: Int = 0,
     override val superclass: PClass? = null,
