@@ -10,9 +10,10 @@ import org.poach3r.frontend.functions.io.files.IsFile
 import org.poach3r.frontend.functions.io.files.Read
 import org.poach3r.frontend.functions.io.files.Write
 import java.io.File
+import kotlin.String
 
-class Files(
-    override val name: String = "Files",
+class File(
+    override val name: String = "File",
     override val arity: Int = 1,
     override val methods: HashMap<String, PCallable> = hashMapOf(
         "read" to Read(),

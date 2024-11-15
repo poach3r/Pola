@@ -1,7 +1,7 @@
 # Imports
 import("pola/io")
-import("pola/arrays")
-import("pola/strings")
+import("pola/array")
+import("pola/string")
 
 # Class Definitions
 class Person {
@@ -11,7 +11,7 @@ class Person {
     }
 
     toString() {
-        return strings(this.name + " is " + this.age + " years old.")
+        return string(this.name + " is " + this.age + " years old.")
     }
 
     isAdult() {
@@ -33,7 +33,7 @@ class JimmyCarter inherits Person {
 val jimmyCarter = JimmyCarter()
 io.println(jimmyCarter.toString()) # Jimmy Carter is 100 years old.
 
-val presidents = arrays(jimmyCarter, Person("Donald Trump", 78), Person("Joe Biden", 81))
+val presidents = array(jimmyCarter, Person("Donald Trump", 78), Person("Joe Biden", 81))
 io.println(presidents.map(fun (president) {
     return president.toString()
 })) # [Jimmy Carter is 100 years old., Donald Trump is 78 years old., Joe Biden is 81 years old.]

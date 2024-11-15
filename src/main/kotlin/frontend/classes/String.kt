@@ -10,9 +10,10 @@ import org.poach3r.frontend.functions.arrays.Map
 import org.poach3r.frontend.functions.arrays.Remove
 import org.poach3r.frontend.functions.arrays.Replace
 import org.poach3r.frontend.functions.arrays.Set
+import kotlin.String
 
-class Strings(
-    override val name: String = "Strings",
+class String(
+    override val name: String = "String",
     override val arity: Int = 1,
     override val methods: HashMap<String, PCallable> = hashMapOf(
         "get" to Get(),

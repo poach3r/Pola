@@ -16,8 +16,8 @@ Pola is an interpreted object-oriented programming language written in Kotlin cr
 ```
 # Imports
 import("pola/io")
-import("pola/arrays")
-import("pola/strings")
+import("pola/array")
+import("pola/string")
 
 # Class Definitions
 class Person {
@@ -27,7 +27,7 @@ class Person {
     }
 
     toString() {
-        return strings(this.name + " is " + this.age + " years old.")
+        return string(this.name + " is " + this.age + " years old.")
     }
 
     isAdult() {
@@ -49,7 +49,7 @@ class JimmyCarter inherits Person {
 val jimmyCarter = JimmyCarter()
 io.println(jimmyCarter.toString()) # Jimmy Carter is 100 years old.
 
-val presidents = arrays(jimmyCarter, Person("Donald Trump", 78), Person("Joe Biden", 81))
+val presidents = array(jimmyCarter, Person("Donald Trump", 78), Person("Joe Biden", 81))
 io.println(presidents.map(fun (president) {
     return president.toString()
 }))
@@ -66,7 +66,7 @@ Note: Examples marked with a "*" assume that some libraries have been imported.
 ## Imports
 ```
 import("io") # An instance of the class IO
-import("arrays") # A reference to the class Arrays
+import("array") # A reference to the class Arrays
 val println = io.println # A reference to the function io.println
 ```
 
@@ -97,8 +97,8 @@ val bool = true
 
 ## Objects *
 ```
-val string = strings("string")
-val array = arrays(0, 1)
+val str = string("string")
+val arr = array(0, 1)
 ```
 
 ## Control Flow
@@ -122,13 +122,13 @@ fun isEven(value) {
 val x = 5
 val isXEven = isEven(x) # false
 
-val y = arrays(1, 2, 3, 4)
+val y = array(1, 2, 3, 4)
 val evenY = y.filter(isEven) # [2.0, 4.0]
 ```
 
 ### Anonymous Functions *
 ```
-val x = arrays(0, 1, 2, 3)
+val x = array(0, 1, 2, 3)
 val xPlusOne = x.map(fun (value) {
     return ++value
 }) # [1.0, 2.0, 3.0, 4.0]
@@ -143,7 +143,7 @@ class Person {
     }
     
     toString() {
-        return strings(this.name + " is " + this.age + " years old.")
+        return string(this.name + " is " + this.age + " years old.")
     }
 }
 
@@ -159,15 +159,13 @@ val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
 # Libraries
 
 ## IO
-
 | Name    | Returns      | Parameters  | Arity    | Comments                    |
 |---------|--------------|-------------|----------|-----------------------------|
 | readln  | string (obj) | n/a         | 0        |                             |
 | print   | string (obj) | textToPrint | infinite | Does not include a newline. |
 | println | string (obj) | textToPrint | infinite | Includes a newline.         |
 
-## Arrays
-
+## Array
 | Name    | Returns | Parameters      | Arity | Comments                                                                                                                          |
 |---------|---------|-----------------|-------|-----------------------------------------------------------------------------------------------------------------------------------|
 | get     | any     | index           | 2     |                                                                                                                                   |
@@ -177,8 +175,7 @@ val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
 | foreach | n/a     | applicationFunc | 2     | applicationFunc will be passed each item of the array and optionally the index of the item, returned values will be discarded.    |
 | map     | array   | applicationFunc | 2     | applicationFunc will be passed each item of the array and optionally the index of the item and should return a replacement value. |
 
-## Strings
-
+## String
 | Name    | Returns | Parameters         | Arity | Comments                                                                                                                                     |
 |---------|---------|--------------------|-------|----------------------------------------------------------------------------------------------------------------------------------------------|
 | get     | string  | index              | 2     |                                                                                                                                              |
@@ -190,7 +187,6 @@ val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
 | replace | string  | replacee, replacer | 3     | All occurrences of replacee in the string will be replaced with replacer.                                                                    |
 
 ## Sys
-
 | Name | Returns | Parameters | Arity | Comments |
 |------|---------|------------|-------|----------|
 | exit | n/a     | value      | 1     |          |

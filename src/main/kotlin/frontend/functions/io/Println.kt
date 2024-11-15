@@ -1,8 +1,6 @@
 package org.poach3r.frontend.functions.io
 
 import org.poach3r.frontend.Interpreter
-import org.poach3r.frontend.PCallable
-import org.poach3r.frontend.classes.Strings
 
 class Println(
     override val arity: Int = -1

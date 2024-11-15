@@ -1,8 +1,6 @@
 package frontend.functions.standardLibrary
 
 import org.poach3r.frontend.Interpreter
-import org.poach3r.frontend.PCallable
-import org.poach3r.frontend.classes.Strings
 import org.poach3r.frontend.functions.io.IOFunc
 
 class Print(
