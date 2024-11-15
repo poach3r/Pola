@@ -28,36 +28,24 @@ object Main {
             exitProcess(1)
         }
 
-        if (config!!.file == null)
-            shell()
-        else
-            file(config!!.file!!)
+        interpret(config!!.file!!)
     }
 
-    fun file(source: File) {
-        interpret(source.readLines().joinToString("\n"))
-    }
-
-    fun shell() {
-        while (true) {
-            print("$ ")
-            interpret(readln())
-        }
-    }
-
-    private fun interpret(source: String) {
+    fun interpret(file: File) {
         try {
-            val statements = parser.parse(scanner.scanTokens(source))
+            val statements = parser.parse(scanner.scanTokens(file.readLines().joinToString("\n")))
             resolver.resolve(statements)
             interpreter.interpret(statements)
         } catch (e: PError) {
-            System.err.println(e.message)
-
             if (config!!.printStackTrace)
                 e.printStackTrace()
+            else
+                System.err.println(e.message)
+
+            exitProcess(1)
         } catch (e: Error) {
             e.printStackTrace()
-            println() // HACK without these printlns the prompt is on the line with the error message, dunno why
+            exitProcess(1)
         }
     }
 }

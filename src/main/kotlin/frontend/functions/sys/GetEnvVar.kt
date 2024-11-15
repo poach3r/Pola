@@ -7,6 +7,6 @@ class GetEnvVar(
     override val arity: Int = 1
 ): PCallable {
     override fun call(interpreter: Interpreter, arguments: List<Any>): Any {
-        return System.getenv(arguments[0].toString())
+        return interpreter.createString(System.getenv(arguments[0].toString()))
     }
 }

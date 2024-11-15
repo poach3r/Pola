@@ -46,7 +46,7 @@ class Import(
                     )
                 }
 
-                Main.file(possibleClass)
+                Main.interpret(possibleClass)
 
                 arguments[0] as kotlin.String // this is temporary
             }
