@@ -6,7 +6,7 @@ import org.poach3r.frontend.classes.String
 
 interface IOFunc: PCallable {
     fun getVal(interpreter: Interpreter, text: kotlin.String): Any {
-        interpreter.globals.variables.get("strings")?.let {
+        interpreter.globals.variables.get("string")?.let {
             return (it.value as String).call(interpreter, listOf(text))
         }
 

@@ -7,7 +7,7 @@ import org.poach3r.frontend.functions.io.Readln
 import kotlin.String
 
 class IO(
-    override val name: kotlin.String = "IO",
+    override val name: String = "IO",
     override val methods: HashMap<String, PCallable> = hashMapOf(
         "print" to Print(),
         "println" to Println(),

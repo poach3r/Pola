@@ -42,7 +42,7 @@ interface ArrayFunc : PCallable {
 
     fun getResult(list: List<Any>, arg: Any, interpreter: Interpreter): Any {
         if (arg is kotlin.String) {
-            interpreter.globals.variables.get("strings")?.let {
+            interpreter.globals.variables.get("string")?.let {
                 return (it.value as String).call(interpreter, listOf(list.joinToString("")))
             }
 
@@ -50,6 +50,6 @@ interface ArrayFunc : PCallable {
         }
 
         else
-            return (interpreter.globals.variables.get("arrays")!!.value as Array).call(interpreter, list)
+            return (interpreter.globals.variables.get("array")!!.value as Array).call(interpreter, list)
     }
 }
