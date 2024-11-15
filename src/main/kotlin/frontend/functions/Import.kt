@@ -24,8 +24,8 @@ class Import(
 
         return when(arguments[0] as kotlin.String) {
             // check for the standard libraries
-            "pola/string" -> interpreter.globals.define("strings", false, String())
-            "pola/array" -> interpreter.globals.define("arrays", false, Array())
+            "pola/string" -> interpreter.globals.define("string", false, String())
+            "pola/array" -> interpreter.globals.define("array", false, Array())
             "pola/io" -> interpreter.globals.define("io", false, IO().call(interpreter, listOf()))
             "pola/sys" -> interpreter.globals.define("sys", false, Sys().call(interpreter, listOf()))
 
