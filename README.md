@@ -3,7 +3,8 @@
 1. [About](#about)
 2. [Feature Showcase](#feature-showcase)
 3. [Libraries](#libraries)
-4. [Todo](#todo)
+4. [Example](#example)
+5. [Todo](#todo)
 
 # About
 Pola is an interpreted object-oriented programming language written in Kotlin created for learning purposes.
@@ -145,6 +146,46 @@ val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
 | Name | Returns | Parameters | Arity | Comments |
 |------|---------|------------|-------|----------|
 | exit | n/a     | value      | 1     |          |
+
+# Example
+```
+# Imports
+val io = import("IO")
+val arrays = import("Arrays")
+val strings = import("Strings")
+
+# Class Definitions
+class Person {
+    init(name, age) {
+        this.name = name
+        this.age = age
+    }
+
+    toString() {
+        return strings(this.name + " is " + this.age + " years old.")
+    }
+
+    isAdult() {
+        return this.age > 17
+    }
+
+    isMinor() {
+        return !this.isAdult()
+    }
+}
+
+class JimmyCarter inherits Person {
+    init() {
+        super.init("Jimmy Carter", 100)
+    }
+}
+
+# Main
+val jimmyCarter = JimmyCarter()
+io.println(jimmyCarter.toString()) # Jimmy Carter is 100 years old.
+io.println(jimmyCarter.isAdult()) # true
+io.println(jimmyCarter.isMinor()) # false
+```
 
 # Todo
 - Create a Javadoc
