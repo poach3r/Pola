@@ -1,6 +1,6 @@
 <h2 align="center">
     <picture>
-        <img src="assets/logo.png" width="30%"/>
+        <img src="assets/logo.png" width="50%"/>
     </picture>
 </h2>
 
