@@ -6,35 +6,33 @@ import org.poach3r.errors.ArgError
 import org.poach3r.errors.PError
 import org.poach3r.frontend.Interpreter
 import org.poach3r.frontend.Resolver
+import java.io.File
 
 fun main(args: Array<String>) {
-    try {
-        Main(Config.of(args)).main()
-    } catch (e: ArgError) {
-        System.err.println(e.message)
-    } catch (e: Error) {
-        e.printStackTrace()
-    }
+    Main.main(args)
 }
 
-class Main(val config: Config) {
+object Main {
     val scanner = Scanner()
     val parser = Parser()
     val interpreter = Interpreter()
     val resolver = Resolver(interpreter)
+    var config: Config? = null
 
-    fun main() {
-        if (config.file == null)
+    fun main(args: Array<String>) {
+        config = Config.of(args)
+
+        if (config!!.file == null)
             shell()
         else
-            lang(config.file.readLines().joinToString("\n"))
+            file(config!!.file!!)
     }
 
-    private fun lang(source: String) {
-        interpret(source)
+    fun file(source: File) {
+        interpret(source.readLines().joinToString("\n"))
     }
 
-    private fun shell() {
+    fun shell() {
         while (true) {
             print("$ ")
             interpret(readln())
@@ -49,7 +47,7 @@ class Main(val config: Config) {
         } catch (e: PError) {
             System.err.println(e.message)
 
-            if (config.printStackTrace)
+            if (config!!.printStackTrace)
                 e.printStackTrace()
         } catch (e: Error) {
             e.printStackTrace()
@@ -57,4 +55,3 @@ class Main(val config: Config) {
         }
     }
 }
-

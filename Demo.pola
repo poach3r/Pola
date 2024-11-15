@@ -1,7 +1,7 @@
 # Imports
-val io = import("IO")
-val arrays = import("Arrays")
-val strings = import("Strings")
+import("pola/io")
+import("pola/arrays")
+import("pola/strings")
 
 # Class Definitions
 class Person {
