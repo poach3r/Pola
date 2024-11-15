@@ -1,19 +1,67 @@
-# Table of Contents
+<h2 align="center">
+    <picture>
+        <img src="assets/logo.png" width="30%"/>
+    </picture>
+</h2>
 
+# Table of Contents
 1. [About](#about)
 2. [Feature Showcase](#feature-showcase)
 3. [Libraries](#libraries)
-4. [Example](#example)
-5. [Todo](#todo)
+4. [Todo](#todo)
 
 # About
 Pola is an interpreted object-oriented programming language written in Kotlin created for learning purposes.
+
+```
+# Imports
+import("pola/io")
+import("pola/arrays")
+import("pola/strings")
+
+# Class Definitions
+class Person {
+    init(name, age) {
+        this.name = name
+        this.age = age
+    }
+
+    toString() {
+        return strings(this.name + " is " + this.age + " years old.")
+    }
+
+    isAdult() {
+        return this.age > 17
+    }
+
+    isMinor() {
+        return !this.isAdult()
+    }
+}
+
+class JimmyCarter inherits Person {
+    init() {
+        super.init("Jimmy Carter", 100)
+    }
+}
+
+# Main
+val jimmyCarter = JimmyCarter()
+io.println(jimmyCarter.toString()) # Jimmy Carter is 100 years old.
+
+val presidents = arrays(jimmyCarter, Person("Donald Trump", 78), Person("Joe Biden", 81))
+io.println(presidents.map(fun (president) {
+    return president.toString()
+}))
+```
 
 # Feature Showcase
 Note: Examples marked with a "*" assume that some libraries have been imported.
 
 ## Comments
-`# This is a comment`
+```
+# This is a comment
+```
 
 ## Imports
 ```
@@ -78,7 +126,7 @@ val y = arrays(1, 2, 3, 4)
 val evenY = y.filter(isEven) # [2.0, 4.0]
 ```
 
-## Anonymous Functions *
+### Anonymous Functions *
 ```
 val x = arrays(0, 1, 2, 3)
 val xPlusOne = x.map(fun (value) {
@@ -146,49 +194,6 @@ val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
 | Name | Returns | Parameters | Arity | Comments |
 |------|---------|------------|-------|----------|
 | exit | n/a     | value      | 1     |          |
-
-# Example
-```
-# Imports
-import("pola/io")
-import("pola/arrays")
-import("pola/strings")
-
-# Class Definitions
-class Person {
-    init(name, age) {
-        this.name = name
-        this.age = age
-    }
-
-    toString() {
-        return strings(this.name + " is " + this.age + " years old.")
-    }
-
-    isAdult() {
-        return this.age > 17
-    }
-
-    isMinor() {
-        return !this.isAdult()
-    }
-}
-
-class JimmyCarter inherits Person {
-    init() {
-        super.init("Jimmy Carter", 100)
-    }
-}
-
-# Main
-val jimmyCarter = JimmyCarter()
-io.println(jimmyCarter.toString()) # Jimmy Carter is 100 years old.
-
-val presidents = arrays(jimmyCarter, Person("Donald Trump", 78), Person("Joe Biden", 81))
-io.println(presidents.map(fun (president) {
-    return president.toString()
-}))
-```
 
 # Todo
 - Create a Javadoc
