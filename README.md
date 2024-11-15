@@ -183,8 +183,11 @@ class JimmyCarter inherits Person {
 # Main
 val jimmyCarter = JimmyCarter()
 io.println(jimmyCarter.toString()) # Jimmy Carter is 100 years old.
-io.println(jimmyCarter.isAdult()) # true
-io.println(jimmyCarter.isMinor()) # false
+
+val presidents = arrays(jimmyCarter, Person("Donald Trump", 78), Person("Joe Biden", 81))
+io.println(presidents.map(fun (president) {
+    return president.toString()
+})) # [Jimmy Carter is 100 years old., Donald Trump is 78 years old., Joe Biden is 81 years old.]
 ```
 
 # Todo
