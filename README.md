@@ -17,8 +17,8 @@ Note: Examples marked with a "*" assume that some libraries have been imported.
 
 ## Imports
 ```
-val io = import("IO") # An instance of the class IO
-val arrays = import("Arrays") # A reference to the class Arrays
+import("io") # An instance of the class IO
+import("arrays") # A reference to the class Arrays
 val println = io.println # A reference to the function io.println
 ```
 
