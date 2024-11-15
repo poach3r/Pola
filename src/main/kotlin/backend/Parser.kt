@@ -36,9 +36,6 @@ class Parser {
     }
 
     private fun declaration(): Stmt {
-        if (match(IMPORT))
-            return import()
-
         if (match(CLASS))
             return classDeclaration()
 
@@ -77,21 +74,6 @@ class Parser {
             return breakStatement()
 
         return expressionStatement()
-    }
-
-    // import NAME as NAME
-    private fun import(): Stmt {
-        var internalName = expression
-
-        consume(AS, "Expected 'as' after library name.")
-
-        val givenName = consume(IDENTIFIER, "Expected name after 'as'.")
-
-        return Stmt.Companion.Var(
-            name = givenName,
-            mutable = false,
-            initializer = internalName
-        )
     }
 
     // fun NAME (PARAM, PARAM) { BODY }

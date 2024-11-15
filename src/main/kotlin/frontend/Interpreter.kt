@@ -9,10 +9,17 @@ import org.poach3r.errors.ReturnError
 import org.poach3r.errors.RuntimeError
 import org.poach3r.frontend.classes.PForeignClass
 import org.poach3r.frontend.classes.StandardLibrary
+import org.poach3r.frontend.functions.Import
 import org.poach3r.frontend.functions.PFunction
 
 class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
-    val globals = Environment()
+    val globals = Environment().apply {
+        this.define(
+            name = "import",
+            value = Import(),
+            mutable = false
+        )
+    }
     private var environment = globals
     private val locals = HashMap<Expr, Int>()
 
@@ -57,12 +64,7 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     }
 
     override fun visitVarStmt(stmt: Stmt.Companion.Var): Any {
-        val value =
-            if (stmt.initializer is Expr.Companion.Var && stmt.initializer.name.lexeme == "Standard")
-                StandardLibrary().call(this, listOf())
-            else
-                evaluate(stmt.initializer)
-
+        val value = evaluate(stmt.initializer)
         environment.define(stmt.name, stmt.mutable, value)
         return value
     }

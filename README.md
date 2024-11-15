@@ -6,27 +6,22 @@
 4. [Todo](#todo)
 
 # About
-
 Pola is an interpreted object-oriented programming language written in Kotlin created for learning purposes.
 
 # Feature Showcase
-
-Note: Examples marked with a "*" assume that `import Standard as std` has been declared.
+Note: Examples marked with a "*" assume that `val std = import("Standard")` has been declared.
 
 ## Comments
-
 `# This is a comment`
 
 ## Imports
-
 ```
-import Standard as std
+val std = import("Standard")
+val println = std.println # Allows you to discard the "std." prefix
 val array = std.array
-val println = std.println
 ```
 
 ## Math
-
 ```
 var x = 10
 x = x + 10 # 20
@@ -39,14 +34,12 @@ x = --x # 0
 ```
 
 ## Variables
-
 ```
 var mutable = "This is mutable."
 val immutable = "This is immutable."
 ```
 
 ## Primitives
-
 ```
 val num = 0
 val string = ""
@@ -54,14 +47,12 @@ val bool = true
 ```
 
 ## Objects *
-
 ```
 val string = std.string("")
 val array = std.array(0, 1)
 ```
 
 ## Control Flow
-
 ```
 if(true) {
 }
@@ -74,7 +65,6 @@ for(i = 0; i < 10; i = ++i) {
 ```
 
 ## First-Class Functions *
-
 ```
 fun isEven(value) {
     return value % 2 == 0
@@ -88,7 +78,6 @@ val evenY = y.filter(isEven) # [2.0, 4.0]
 ```
 
 ## Anonymous Functions *
-
 ```
 val x = std.array(0, 1, 2, 3)
 val xPlusOne = x.map(fun (value) {
@@ -97,7 +86,6 @@ val xPlusOne = x.map(fun (value) {
 ```
 
 ## Classes *
-
 ```
 class Person {
     init(name, age) {

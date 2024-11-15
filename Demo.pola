@@ -1,7 +1,8 @@
 # Imports
-import Standard as std
+val std = import("Standard")
 val println = std.println
 
+# Class Definitions
 class Person {
     init(name, age) {
         this.name = name
@@ -11,6 +12,14 @@ class Person {
     toString() {
         return this.name + " is " + this.age + " years old."
     }
+
+    isAdult() {
+        return this.age > 17
+    }
+
+    isMinor() {
+        return !this.isAdult()
+    }
 }
 
 class JimmyCarter inherits Person {
@@ -19,5 +28,8 @@ class JimmyCarter inherits Person {
     }
 }
 
-val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
-println(jimmyCarter.toString())
+# Main
+val jimmyCarter = JimmyCarter()
+println(jimmyCarter.toString()) # Jimmy Carter is 100 years old.
+println(jimmyCarter.isAdult()) # true
+println(jimmyCarter.isMinor()) # false

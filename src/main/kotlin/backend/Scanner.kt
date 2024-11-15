@@ -30,8 +30,6 @@ class Scanner {
         "class" to CLASS,
         "this" to THIS,
         "super" to SUPER,
-        "import" to IMPORT,
-        "as" to AS,
         "inherits" to INHERITS
     )
 
