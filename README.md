@@ -159,11 +159,17 @@ val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
 # Libraries
 
 ## IO
-| Name    | Returns      | Parameters  | Arity    | Comments                    |
-|---------|--------------|-------------|----------|-----------------------------|
-| readln  | string (obj) | n/a         | 0        |                             |
-| print   | string (obj) | textToPrint | infinite | Does not include a newline. |
-| println | string (obj) | textToPrint | infinite | Includes a newline.         |
+| Name    | Returns | Parameters  | Arity    | Comments                             |
+|---------|---------|-------------|----------|--------------------------------------|
+| readln  | string  | n/a         | 0        |                                      |
+| print   | string  | textToPrint | infinite | Does not include a newline.          |
+| println | string  | textToPrint | infinite | Includes a newline.                  |
+| file    | file    | fileName    | 1        | Does not perform any error checking. |
+
+## Sys
+| Name | Returns | Parameters | Arity | Comments |
+|------|---------|------------|-------|----------|
+| exit | n/a     | value      | 1     |          |
 
 ## Array
 | Name    | Returns | Parameters      | Arity | Comments                                                                                                                          |
@@ -186,13 +192,17 @@ val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
 | map     | string  | applicationFunc    | 2     | applicationFunc will be passed each character of the string and optionally the index of the character and should return a replacement value. |
 | replace | string  | replacee, replacer | 3     | All occurrences of replacee in the string will be replaced with replacer.                                                                    |
 
-## Sys
-| Name | Returns | Parameters | Arity | Comments |
-|------|---------|------------|-------|----------|
-| exit | n/a     | value      | 1     |          |
+## File
+| Name   | Returns | Parameters | Arity | Comments                                                 |
+|--------|---------|------------|-------|----------------------------------------------------------|
+| read   | string  | n/a        | 1     |                                                          |
+| isFile | bool    | n/a        | 1     |                                                          |
+| exists | bool    | n/a        | 1     |                                                          |
+| delete | bool    | n/a        | 1     | This will likely be changed to return the File instance. |
+| create | bool    | n/a        | 1     | See above                                                |
+| write  | bool    | text       | 2     | See above                                                |
 
 # Todo
 - Create a Javadoc
 - Improve README documentation
 - Remove primitives
-- Add functions for IO
