@@ -150,9 +150,9 @@ val jimmyCarter = JimmyCarter() # Instance of JimmyCarter
 # Example
 ```
 # Imports
-val io = import("IO")
-val arrays = import("Arrays")
-val strings = import("Strings")
+import("pola/io")
+import("pola/arrays")
+import("pola/strings")
 
 # Class Definitions
 class Person {
@@ -187,7 +187,7 @@ io.println(jimmyCarter.toString()) # Jimmy Carter is 100 years old.
 val presidents = arrays(jimmyCarter, Person("Donald Trump", 78), Person("Joe Biden", 81))
 io.println(presidents.map(fun (president) {
     return president.toString()
-})) # [Jimmy Carter is 100 years old., Donald Trump is 78 years old., Joe Biden is 81 years old.]
+}))
 ```
 
 # Todo
