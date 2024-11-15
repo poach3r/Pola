@@ -17,12 +17,7 @@ class Import(
         interpreter: Interpreter,
         arguments: List<Any>
     ): Any {
-        if(arguments[0] !is kotlin.String)
-            throw RuntimeError(
-                msg = "Cannot import non-string value '${arguments[0]}'",
-            )
-
-        return when(arguments[0] as kotlin.String) {
+        return when(arguments[0].toString()) {
             // check for the standard libraries
             "pola/string" -> interpreter.globals.define("string", false, String())
             "pola/array" -> interpreter.globals.define("array", false, Array())

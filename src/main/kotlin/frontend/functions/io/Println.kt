@@ -1,10 +1,11 @@
 package org.poach3r.frontend.functions.io
 
 import org.poach3r.frontend.Interpreter
+import org.poach3r.frontend.PCallable
 
 class Println(
     override val arity: Int = -1
-) : IOFunc {
+) : PCallable {
     override fun call(
         interpreter: Interpreter,
         arguments: List<Any>
@@ -14,6 +15,6 @@ class Println(
         }.joinToString(" ")
         println(text)
 
-        return getVal(interpreter, text)
+        return return interpreter.createString(text)
     }
 }

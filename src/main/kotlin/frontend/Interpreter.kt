@@ -18,6 +18,11 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
             value = Import(),
             mutable = false
         )
+        this.define(
+            name = "string",
+            value = org.poach3r.frontend.classes.String(),
+            mutable = false
+        )
     }
     private var environment = globals
     private val locals = HashMap<Expr, Int>()
@@ -223,7 +228,7 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
 //                if(left is String && right is String)
 //                    return left + right
 
-                return stringify(left) + stringify(right)
+                return createString(stringify(left) + stringify(right))
 
 //                throw RuntimeError(
 //                    msg = "Operands '$right' and '$left' must be numbers or strings."
@@ -283,6 +288,9 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     }
 
     override fun visitLiteralExpr(expr: Expr.Companion.Literal): Any {
+        if(expr.value is String)
+            return createString(expr.value)
+
         return expr.value
     }
 
@@ -495,5 +503,9 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
             return environment.get(name)
 
         return environment.getAt(distance, name.lexeme)!!
+    }
+
+    fun createString(text: String): Any {
+        return (globals.variables.get("string")!!.value as org.poach3r.frontend.classes.String).call(this, listOf(text))
     }
 }
