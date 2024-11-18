@@ -201,6 +201,12 @@ val coke = Product("Coke", "Coca Cola", 2) # Instance of Product
 | create | bool    | n/a        | 1     | See above                                                |
 | write  | bool    | text       | 2     | See above                                                |
 
+## Errors
+| Name  | Returns                            | Parameters         | Arity | Comments                                                                              |
+|-------|------------------------------------|--------------------|-------|---------------------------------------------------------------------------------------|
+| try   | The result of tryFunc or catchFunc | tryFunc, catchFunc | 2     | Catches all errors. catchFunc is called with the error message thrown during tryFunc. |
+| throw | n/a                                | message            | 1     | Throws an Error instance.                                                             |
+
 # Todo
 - Create a Javadoc
 - Improve README documentation

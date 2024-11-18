@@ -1,0 +1,21 @@
+import("pola/errors")
+import("pola/io")
+import("pola/sys")
+
+fun getInput() {
+    io.print("Enter 'true' or 'false': ")
+    val input = io.readln()
+
+    if(input != "true" & input != "false")
+        errors.throw("Input '" + input + "' did not equal 'true' or 'false'.")
+
+    io.println("Input: " + input)
+}
+
+errors.try(
+    getInput,
+    fun (message) {
+        io.println("Failed to get input: " + message)
+        sys.exit(1)
+    }
+)

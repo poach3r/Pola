@@ -10,7 +10,7 @@ class ForEach(
         arguments: List<Any>
     ): Any {
         val list = getList(arguments[0])
-        val function = getFunc(list, arguments[1])
+        val function = getFunc(list, 1)
 
         if (function.arity == 1) {
             list.forEach {

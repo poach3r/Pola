@@ -29,8 +29,8 @@ data class Config(
                     else -> {
                         if(!ignoreNext)
                             throw ArgError(
-                            index = index,
-                            msg = "Cannot parse argument '$arg'."
+                                index = index,
+                                msg = "Cannot parse argument '$arg'."
                             )
                     }
                 }

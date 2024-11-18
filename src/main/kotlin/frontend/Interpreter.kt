@@ -432,7 +432,12 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     }
 
     private fun evaluate(expr: Expr): Any {
-        return expr.accept(this)
+        val value =  expr.accept(this)
+
+        if(value is PInstance)
+            return value.get()
+
+        return value
     }
 
     private fun isTruthy(obj: Any): Boolean {

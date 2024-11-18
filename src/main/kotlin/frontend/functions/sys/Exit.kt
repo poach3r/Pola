@@ -1,4 +1,4 @@
-package frontend.functions.standardLibrary
+package frontend.functions.sys
 
 import org.poach3r.errors.RuntimeError
 import org.poach3r.frontend.Interpreter

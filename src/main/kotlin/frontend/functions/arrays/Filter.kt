@@ -12,7 +12,7 @@ class Filter(
         arguments: List<Any>
     ): Any {
         val list = getList(arguments[0])
-        val function = getFunc(list, arguments[1])
+        val function = getFunc(arguments, 1)
         val result = list.filter {
             val result = function.call(interpreter, listOf(it))
             if (result !is Boolean)

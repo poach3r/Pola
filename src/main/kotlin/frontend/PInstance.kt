@@ -41,6 +41,14 @@ class PInstance(
         )
     }
 
+    fun get(): Any {
+        fields.get("__literalValue")?.let {
+            return it
+        }
+
+        return this
+    }
+
     fun set(name: Token, value: Any) {
         fields.put(name.lexeme, value)
     }
