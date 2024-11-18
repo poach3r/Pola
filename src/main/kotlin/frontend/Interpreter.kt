@@ -274,8 +274,34 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
                 return left as Double <= right as Double
             }
 
-            BANG_EQUAL -> return left != right
-            EQUAL_EQUAL -> return left == right
+            BANG_EQUAL -> {
+                val l =
+                    if(left is PInstance)
+                        left.get()
+                    else
+                        left
+                val r =
+                    if(right is PInstance)
+                        right.get()
+                    else
+                        right
+
+                return l != r
+            }
+            EQUAL_EQUAL -> {
+                val l =
+                    if(left is PInstance)
+                        left.get()
+                    else
+                        left
+                val r =
+                    if(right is PInstance)
+                        right.get()
+                    else
+                        right
+
+                return l == r
+            }
 
             else -> return false
         }
@@ -432,12 +458,7 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     }
 
     private fun evaluate(expr: Expr): Any {
-        val value = expr.accept(this)
-
-        if (value is PInstance)
-            return value.get()
-
-        return value
+        return expr.accept(this)
     }
 
     private fun isTruthy(obj: Any): Boolean {
