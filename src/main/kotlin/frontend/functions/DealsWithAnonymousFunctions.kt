@@ -3,7 +3,7 @@ package org.poach3r.frontend.functions
 import org.poach3r.errors.RuntimeError
 import org.poach3r.frontend.PCallable
 
-interface DealsWithAnonymousFunctions: PCallable {
+interface DealsWithAnonymousFunctions : PCallable {
     fun getFunc(list: List<Any>, index: Int): PFunction {
         if (list[index] !is PFunction)
             throw RuntimeError(

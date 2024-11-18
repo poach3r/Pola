@@ -26,8 +26,9 @@ data class Config(
 
                         ignoreNext = true
                     }
+
                     else -> {
-                        if(!ignoreNext)
+                        if (!ignoreNext)
                             throw ArgError(
                                 index = index,
                                 msg = "Cannot parse argument '$arg'."
@@ -36,7 +37,7 @@ data class Config(
                 }
             }
 
-            if(file == null)
+            if (file == null)
                 throw ArgError(
                     index = 0,
                     msg = "No file was provided."

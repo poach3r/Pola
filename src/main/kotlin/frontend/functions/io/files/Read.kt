@@ -7,21 +7,21 @@ import java.io.File
 
 class Read(
     override val arity: Int = 1
-): PCallable {
+) : PCallable {
     override fun call(interpreter: Interpreter, arguments: List<Any>): Any {
         val file = (arguments[0] as File)
 
-        if(!file.exists())
+        if (!file.exists())
             throw RuntimeError(
                 msg = "Cannot read file '${file.absolutePath}' as it does not exist."
             )
 
-        if(!file.isFile)
+        if (!file.isFile)
             throw RuntimeError(
                 msg = "Cannot read '${file.absolutePath}' as it is not a file."
             )
 
-        if(!file.canRead())
+        if (!file.canRead())
             throw RuntimeError(
                 msg = "Cannot read '${file.absolutePath}' due to a lack of permissions."
             )

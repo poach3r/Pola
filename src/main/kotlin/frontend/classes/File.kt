@@ -24,7 +24,7 @@ class File(
         "write" to Write()
     ),
     override val superclass: PClass? = null,
-): PNativeClass {
+) : PNativeClass {
     override fun toString(fields: HashMap<String, Any>): String {
         return fields.get("__literalValue").toString()
     }

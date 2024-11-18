@@ -7,7 +7,7 @@ import org.poach3r.frontend.functions.DealsWithAnonymousFunctions
 
 interface ArrayFunc : DealsWithAnonymousFunctions {
     fun getList(obj: Any): ArrayList<Any> {
-        if (obj is kotlin.String)
+        if (obj is String)
             return obj.toCharArray().toList().map(Char::toString) as ArrayList<Any>
         else
             return ArrayList<Any>(obj as ArrayList<Any>)
@@ -30,9 +30,8 @@ interface ArrayFunc : DealsWithAnonymousFunctions {
     }
 
     fun getResult(list: List<Any>, arg: Any, interpreter: Interpreter): Any {
-        if (arg is kotlin.String)
+        if (arg is String)
             return interpreter.createString(list.joinToString(""))
-
         else
             return (interpreter.globals.variables.get("array")!!.value as Array).call(interpreter, list)
     }

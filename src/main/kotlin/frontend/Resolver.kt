@@ -92,7 +92,7 @@ class Resolver(
     }
 
     override fun visitVarExpr(expr: Expr.Companion.Var): Any {
-        if (!scopes.isEmpty() && scopes.peek()[expr.name.lexeme] == false)
+        if (!scopes.isEmpty && scopes.peek()[expr.name.lexeme] == false)
             throw ResolvingError(
                 line = expr.name.line,
                 msg = "Cannot read local variable in it's own initializer."
@@ -276,7 +276,7 @@ class Resolver(
     }
 
     private fun declare(name: Token) {
-        if (scopes.isEmpty())
+        if (scopes.isEmpty)
             return
 
         val scope = scopes.peek()
@@ -288,7 +288,7 @@ class Resolver(
     }
 
     private fun define(name: Token) {
-        if (scopes.isEmpty())
+        if (scopes.isEmpty)
             return
 
         scopes.peek().put(

@@ -13,12 +13,12 @@ import java.io.File
 
 class Import(
     override val arity: Int = 1
-): PCallable {
+) : PCallable {
     override fun call(
         interpreter: Interpreter,
         arguments: List<Any>
     ): Any {
-        return when(arguments[0].toString()) {
+        return when (arguments[0].toString()) {
             // check for the standard libraries
             "pola/string" -> interpreter.globals.define("string", false, String())
             "pola/array" -> interpreter.globals.define("array", false, Array())
@@ -30,19 +30,19 @@ class Import(
             else -> {
                 val possibleClass = File((arguments[0] as kotlin.String) + ".pola")
 
-                if(!possibleClass.exists()) {
+                if (!possibleClass.exists()) {
                     throw RuntimeError(
                         msg = "Cannot find class '${arguments[0]}'..",
                     )
                 }
 
-                if(!possibleClass.isFile) {
+                if (!possibleClass.isFile) {
                     throw RuntimeError(
                         msg = "Cannot import '${arguments[0]}' as it is not a file.",
                     )
                 }
 
-                if(!possibleClass.canRead()) {
+                if (!possibleClass.canRead()) {
                     throw RuntimeError(
                         msg = "Cannot read class '${arguments[0]}'.",
                     )

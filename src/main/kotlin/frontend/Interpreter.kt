@@ -288,7 +288,7 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     }
 
     override fun visitLiteralExpr(expr: Expr.Companion.Literal): Any {
-        if(expr.value is String)
+        if (expr.value is String)
             return createString(expr.value)
 
         return expr.value
@@ -432,9 +432,9 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     }
 
     private fun evaluate(expr: Expr): Any {
-        val value =  expr.accept(this)
+        val value = expr.accept(this)
 
-        if(value is PInstance)
+        if (value is PInstance)
             return value.get()
 
         return value

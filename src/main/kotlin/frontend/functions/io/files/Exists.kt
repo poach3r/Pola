@@ -6,7 +6,7 @@ import java.io.File
 
 class Exists(
     override val arity: Int = 1
-): PCallable {
+) : PCallable {
     override fun call(interpreter: Interpreter, arguments: List<Any>): Any {
         return (arguments[0] as File).exists()
     }

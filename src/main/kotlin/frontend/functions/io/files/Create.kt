@@ -7,11 +7,11 @@ import java.io.File
 
 class Create(
     override val arity: Int = 1
-): PCallable {
+) : PCallable {
     override fun call(interpreter: Interpreter, arguments: List<Any>): Any {
         val file = (arguments[0] as File)
 
-        if(file.exists())
+        if (file.exists())
             throw RuntimeError(
                 msg = "Cannot create file '${file.absolutePath}' as it already exists."
             )

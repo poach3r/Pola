@@ -16,4 +16,4 @@ class IO(
     ),
     override val arity: Int = 0,
     override val superclass: PClass? = null,
-): PNativeClass
+) : PNativeClass

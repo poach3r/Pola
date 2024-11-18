@@ -7,9 +7,9 @@ import org.poach3r.frontend.functions.PFunction
 import kotlin.String
 
 data class PForeignClass(
-    override val name: kotlin.String,
+    override val name: String,
     override val superclass: PForeignClass? = null,
-    override val methods: HashMap<kotlin.String, PCallable>,
+    override val methods: HashMap<String, PCallable>,
     override val arity: Int = methods["init"]?.arity ?: 0
 ) : PClass {
     override fun call(
@@ -22,7 +22,7 @@ data class PForeignClass(
         return instance
     }
 
-    override fun toString(fields: HashMap<kotlin.String, Any>): String {
+    override fun toString(fields: HashMap<String, Any>): String {
         return this.toString()
     }
 }

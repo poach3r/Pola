@@ -6,14 +6,14 @@ import org.poach3r.frontend.functions.PFunction
 import kotlin.String
 
 interface PClass : PCallable {
-    val name: kotlin.String
+    val name: String
     val superclass: PClass?
-    val methods: HashMap<kotlin.String, PCallable>
+    val methods: HashMap<String, PCallable>
     override val arity: Int
 
     override fun call(interpreter: Interpreter, arguments: List<Any>): Any
 
-    fun findMethod(name: kotlin.String): PCallable? {
+    fun findMethod(name: String): PCallable? {
         methods[name]?.let {
             return it
         }
@@ -25,7 +25,7 @@ interface PClass : PCallable {
         return null
     }
 
-    fun arity(methods: HashMap<kotlin.String, PFunction>): Int {
+    fun arity(methods: HashMap<String, PFunction>): Int {
         methods.get("init")?.let {
             return it.arity
         }
@@ -33,7 +33,7 @@ interface PClass : PCallable {
         return 0
     }
 
-    fun toString(fields: HashMap<kotlin.String, Any>): String {
+    fun toString(fields: HashMap<String, Any>): String {
         return this.toString()
     }
 }

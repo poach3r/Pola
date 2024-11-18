@@ -23,7 +23,7 @@ object Main {
     fun main(args: Array<String>) {
         try {
             config = Config.of(args)
-        } catch(e: ArgError) {
+        } catch (e: ArgError) {
             System.err.println(e.message)
             exitProcess(1)
         }

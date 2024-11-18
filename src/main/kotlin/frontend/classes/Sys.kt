@@ -1,6 +1,5 @@
 package org.poach3r.frontend.classes
 
-import frontend.functions.errors.Try
 import frontend.functions.sys.Exit
 import org.poach3r.frontend.PCallable
 import org.poach3r.frontend.functions.sys.GetEnvVar
@@ -14,4 +13,4 @@ class Sys(
         "getEnvVar" to GetEnvVar(),
     ),
     override val superclass: PClass? = null,
-): PNativeClass
+) : PNativeClass
