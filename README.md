@@ -11,48 +11,7 @@
 4. [Todo](#todo)
 
 # About
-Pola is an interpreted object-oriented programming language written in Kotlin created for learning purposes.
-
-```
-# Imports
-import("pola/io")
-import("pola/array")
-
-# Class Definitions
-class Person {
-    init(name, age) {
-        this.name = name
-        this.age = age
-    }
-
-    toString() {
-        return this.name + " is " + this.age + " years old."
-    }
-
-    isAdult() {
-        return this.age > 17
-    }
-
-    isMinor() {
-        return !this.isAdult()
-    }
-}
-
-class JimmyCarter inherits Person {
-    init() {
-        super.init("Jimmy Carter", 100)
-    }
-}
-
-# Main
-val jimmyCarter = JimmyCarter()
-io.println(jimmyCarter.toString()) # Jimmy Carter is 100 years old.
-
-val presidents = array(jimmyCarter, Person("Donald Trump", 78), Person("Joe Biden", 81))
-io.println(presidents.map(fun (president) {
-    return president.toString()
-})) # [Jimmy Carter is 100 years old., Donald Trump is 78 years old., Joe Biden is 81 years old.]
-```
+Pola is an interpreted object-oriented programming language written in Kotlin created for learning purposes. Examples can be found in the [examples directory](./examples).
 
 # Feature Showcase
 Note: Examples marked with a "*" assume that some libraries have been imported.

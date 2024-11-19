@@ -1,0 +1,33 @@
+import("pola/io")
+
+# λx.λy.λz.z x y
+fun lambdaIf(x, y, z) {
+    return z(x, y)
+}
+
+# λx.λy.x
+fun lambdaTrue(x, y) {
+    return x()
+}
+
+# λx.λy.y
+fun lambdaFalse(x, y) {
+    return y()
+}
+
+fun equal(x, y) {
+    if(x == y)
+        return lambdaTrue
+
+    return lambdaFalse
+}
+
+lambdaIf(
+    fun () {
+        io.println("1 == 2")
+    },
+    fun () {
+        io.println("1 != 2")
+    },
+    equal(1, 2)
+)
