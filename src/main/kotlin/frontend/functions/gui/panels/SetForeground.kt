@@ -2,7 +2,6 @@ package org.poach3r.frontend.functions.gui.panels
 
 import org.poach3r.frontend.Interpreter
 import java.awt.Color
-import javax.swing.JFrame
 import javax.swing.JPanel
 
 class SetForeground(

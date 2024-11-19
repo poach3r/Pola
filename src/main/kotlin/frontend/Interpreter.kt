@@ -276,26 +276,27 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
 
             BANG_EQUAL -> {
                 val l =
-                    if(left is PInstance)
+                    if (left is PInstance)
                         left.get()
                     else
                         left
                 val r =
-                    if(right is PInstance)
+                    if (right is PInstance)
                         right.get()
                     else
                         right
 
                 return l != r
             }
+
             EQUAL_EQUAL -> {
                 val l =
-                    if(left is PInstance)
+                    if (left is PInstance)
                         left.get()
                     else
                         left
                 val r =
-                    if(right is PInstance)
+                    if (right is PInstance)
                         right.get()
                     else
                         right

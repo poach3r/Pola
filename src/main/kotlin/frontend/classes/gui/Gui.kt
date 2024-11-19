@@ -14,6 +14,4 @@ class Gui(
         "Panel" to Panel(),
         "Label" to Label()
     ),
-) : PNativeClass {
-
-}
+) : PNativeClass

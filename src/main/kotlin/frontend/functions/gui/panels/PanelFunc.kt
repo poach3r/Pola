@@ -8,6 +8,9 @@ import javax.swing.JPanel
 
 interface PanelFunc : PCallable {
     fun getPanel(interpreter: Interpreter, panel: JPanel): Any {
-        return ((interpreter.globals.variables.get("gui")!!.value as PInstance).get("Panel") as Panel).call(interpreter, listOf(panel))
+        return ((interpreter.globals.variables.get("gui")!!.value as PInstance).get("Panel") as Panel).call(
+            interpreter,
+            listOf(panel)
+        )
     }
 }

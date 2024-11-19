@@ -6,10 +6,10 @@ import org.poach3r.frontend.Interpreter
 import org.poach3r.frontend.PCallable
 import org.poach3r.frontend.classes.Array
 import org.poach3r.frontend.classes.Errors
-import org.poach3r.frontend.classes.gui.Gui
 import org.poach3r.frontend.classes.IO
 import org.poach3r.frontend.classes.String
 import org.poach3r.frontend.classes.Sys
+import org.poach3r.frontend.classes.gui.Gui
 import java.io.File
 
 class Import(

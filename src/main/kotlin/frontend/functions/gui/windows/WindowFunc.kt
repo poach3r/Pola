@@ -8,6 +8,9 @@ import javax.swing.JFrame
 
 interface WindowFunc : PCallable {
     fun getPanel(interpreter: Interpreter, frame: JFrame): Any {
-        return ((interpreter.globals.variables.get("gui")!!.value as PInstance).get("Window") as Window).call(interpreter, listOf(frame))
+        return ((interpreter.globals.variables.get("gui")!!.value as PInstance).get("Window") as Window).call(
+            interpreter,
+            listOf(frame)
+        )
     }
 }

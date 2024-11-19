@@ -2,9 +2,7 @@ package org.poach3r.frontend.functions.gui.labels
 
 import org.poach3r.frontend.Interpreter
 import java.awt.Color
-import javax.swing.JFrame
 import javax.swing.JLabel
-import javax.swing.JPanel
 
 class SetForeground(
     override val arity: Int = 2

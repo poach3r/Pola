@@ -11,7 +11,7 @@ class Add(
     override fun call(interpreter: Interpreter, arguments: List<Any>): Any {
         val panel = arguments[0] as JPanel
 
-        arguments.toMutableList().apply{
+        arguments.toMutableList().apply {
             this.removeAt(0)
         }.map {
             (it as PInstance).get() as JComponent

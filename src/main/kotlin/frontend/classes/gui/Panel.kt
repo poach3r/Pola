@@ -9,9 +9,7 @@ import org.poach3r.frontend.functions.gui.panels.Add
 import org.poach3r.frontend.functions.gui.panels.SetBackground
 import org.poach3r.frontend.functions.gui.panels.SetForeground
 import org.poach3r.frontend.functions.gui.panels.Show
-import javax.swing.JFrame
 import javax.swing.JPanel
-import javax.swing.WindowConstants.EXIT_ON_CLOSE
 import kotlin.String
 
 class Panel(
@@ -31,11 +29,13 @@ class Panel(
     ): Any {
         return PInstance(
             clazz = this,
-            fields = hashMapOf("__literalValue" to
-                    if(arguments.isEmpty())
-                        JPanel()
-                    else
-                        arguments[0] as JPanel)
+            fields = hashMapOf(
+                "__literalValue" to
+                        if (arguments.isEmpty())
+                            JPanel()
+                        else
+                            arguments[0] as JPanel
+            )
         )
     }
 }

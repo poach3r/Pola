@@ -26,11 +26,12 @@ class Label(
     ): Any {
         return PInstance(
             clazz = this,
-            fields = hashMapOf("__literalValue" to
-                    if(arguments.isEmpty())
-                        JLabel()
-                    else
-                        arguments[0] as JLabel
+            fields = hashMapOf(
+                "__literalValue" to
+                        if (arguments.isEmpty())
+                            JLabel()
+                        else
+                            arguments[0] as JLabel
             )
         )
     }
