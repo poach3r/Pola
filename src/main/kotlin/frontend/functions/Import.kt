@@ -6,6 +6,7 @@ import org.poach3r.frontend.Interpreter
 import org.poach3r.frontend.PCallable
 import org.poach3r.frontend.classes.Array
 import org.poach3r.frontend.classes.Errors
+import org.poach3r.frontend.classes.gui.Gui
 import org.poach3r.frontend.classes.IO
 import org.poach3r.frontend.classes.String
 import org.poach3r.frontend.classes.Sys
@@ -25,6 +26,7 @@ class Import(
             "pola/io" -> interpreter.globals.define("io", false, IO().call(interpreter, listOf()))
             "pola/sys" -> interpreter.globals.define("sys", false, Sys().call(interpreter, listOf()))
             "pola/errors" -> interpreter.globals.define("errors", false, Errors().call(interpreter, listOf()))
+            "pola/gui" -> interpreter.globals.define("gui", false, Gui().call(interpreter, listOf()))
 
             // if the library isn't native then check for it via file path
             else -> {

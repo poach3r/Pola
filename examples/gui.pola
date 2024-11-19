@@ -1,0 +1,10 @@
+import("pola/gui")
+
+val window = gui.Window()
+                .setBackground("#000000")
+                .add(
+                    gui.Label()
+                        .setForeground("#FFFFFF")
+                        .setText("Hello, world!")
+                )
+                .show()
