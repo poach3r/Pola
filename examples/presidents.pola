@@ -4,19 +4,24 @@ import("pola/array")
 
 # Class Definitions
 class Person {
+
+    # (String, Num) -> Person
     init(name, age) {
         this.name = name
         this.age = age
     }
 
+    # () -> String
     toString() {
         return this.name + " is " + this.age + " years old."
     }
 
+    # () -> Boolean
     isAdult() {
         return this.age > 17
     }
 
+    # () -> Boolean
     isMinor() {
         return !this.isAdult()
     }
@@ -31,6 +36,7 @@ class JimmyCarter inherits Person {
 # Main
 val jimmyCarter = JimmyCarter()
 io.println(jimmyCarter.toString()) # Jimmy Carter is 100 years old.
+
 val presidents = array(jimmyCarter, Person("Donald Trump", 78), Person("Joe Biden", 81))
 io.println(presidents.map(fun (president) {
     return president.toString()

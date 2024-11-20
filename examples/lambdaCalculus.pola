@@ -1,20 +1,24 @@
 import("pola/io")
 
 # λx.λy.λz.z x y
+# (Fun, Fun, LambdaBoolean) -> Any
 fun lambdaIf(x, y, z) {
     return z(x, y)
 }
 
 # λx.λy.x
+# (Fun, Fun) -> Any
 fun lambdaTrue(x, y) {
     return x()
 }
 
 # λx.λy.y
+# (Fun, Fun) -> Any
 fun lambdaFalse(x, y) {
     return y()
 }
 
+# (Any, Any) -> LambdaBoolean
 fun equal(x, y) {
     if(x == y)
         return lambdaTrue

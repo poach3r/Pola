@@ -72,6 +72,7 @@ for(i = 0; i < 10; i = ++i) {
 
 ## First-Class Functions *
 ```
+# Num -> Boolean
 fun isEven(value) {
     return value % 2 == 0
 }
@@ -85,7 +86,7 @@ val evenNumArray = numArray.filter(isEven) # [2.0, 4.0]
 
 ### Anonymous Functions *
 ```
-val x = array(0, 1, 2, 3)
+val x = array(0, 1, 2, 3) # [0.0, 1.0, 2.0, 3.0]
 val xPlusOne = x.map(fun (value) {
     return ++value
 }) # [1.0, 2.0, 3.0, 4.0]
@@ -94,18 +95,22 @@ val xPlusOne = x.map(fun (value) {
 ## Classes *
 ```
 class Product {
+    # (String, String, Num) -> Product
     init(name, brand, price) {
         this.name = name
         this.brand = brand
         this.price = price
     }
     
+    # () -> String
     toString() {
         return "The " + this.name + " from " + this.brand + " costs $" + this.price + "."
     }
 }
 
 class MottsAppleSauce inherits Product {
+
+    # () -> MottsAppleSauce
     init() {
         super.init("Applesauce", "Mott's", 7)
     }
