@@ -11,7 +11,6 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-    implementation("com.kgit2:kommand:2.2.1")
 }
 
 tasks.test {
