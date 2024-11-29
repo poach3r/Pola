@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "2.0.20"
-    id("com.github.johnrengelman.shadow") version "8.0.0"
+    id("com.gradleup.shadow") version "8.3.5"
     id("org.graalvm.buildtools.native") version "0.10.3"
 }
 
