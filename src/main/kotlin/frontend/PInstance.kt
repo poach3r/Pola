@@ -7,7 +7,7 @@ import org.poach3r.frontend.functions.PFunction
 
 class PInstance(
     val clazz: PClass,
-    private val fields: HashMap<String, Any> = hashMapOf()
+    val fields: HashMap<String, Any> = hashMapOf()
 ) {
     fun get(name: Token): Any {
         fields.get(name.lexeme)?.let {

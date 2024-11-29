@@ -4,12 +4,9 @@ import org.poach3r.Main
 import org.poach3r.errors.RuntimeError
 import org.poach3r.frontend.Interpreter
 import org.poach3r.frontend.PCallable
+import org.poach3r.frontend.classes.*
 import org.poach3r.frontend.classes.Array
-import org.poach3r.frontend.classes.Errors
-import org.poach3r.frontend.classes.IO
-import org.poach3r.frontend.classes.Math
 import org.poach3r.frontend.classes.String
-import org.poach3r.frontend.classes.Sys
 import org.poach3r.frontend.classes.gui.Gui
 import java.io.File
 
@@ -28,6 +25,7 @@ class Import(
             "pola/errors" -> interpreter.globals.define("errors", false, Errors().call(interpreter, listOf()))
             "pola/gui" -> interpreter.globals.define("gui", false, Gui().call(interpreter, listOf()))
             "pola/math" -> interpreter.globals.define("math", false, Math().call(interpreter, listOf()))
+            "pola/random" -> interpreter.globals.define("random", false, Random().call(interpreter, listOf()))
 
             // if the library isn't native then check for it via file path
             else -> {
