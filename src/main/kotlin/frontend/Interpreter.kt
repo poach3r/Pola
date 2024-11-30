@@ -34,7 +34,16 @@ class Interpreter : Expr.Visitor<Any>, Stmt.Visitor<Any> {
     }
 
     private fun execute(stmt: Stmt): Any {
-        return stmt.accept(this)
+        val result = stmt.accept(this)
+        if(result is PInstance) {
+            try {
+                // get the literal value of the class and pass it as an argument
+                return result.get("__literalValue")
+            } catch (_: RuntimeError) {
+            } // if its not a native class then it'll throw a RuntimeError
+        }
+
+        return result
     }
 
     override fun visitExpressionStmt(stmt: Stmt.Companion.Expression): Any {
