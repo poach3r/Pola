@@ -1,30 +1,30 @@
 package org.poach3r.frontend.functions.random
 
 import org.poach3r.frontend.Interpreter
-import org.poach3r.frontend.PInstance
 import org.poach3r.frontend.classes.RandomFunc
+import org.poach3r.frontend.functions.arrays.ArrayFunc
+import kotlin.random.Random
 
-class RandomSample : RandomFunc() {
-    override val arity: Int = 2
+class RandomSample : RandomFunc(), ArrayFunc {
+    override val arity: Int = 2 // Expects two arguments: the list and the sample size.
 
-    private fun extractList(arg: Any): MutableList<Any> {
-        return when (arg) {
-            is PInstance -> arg.fields["__literalValue"] as MutableList<Any>
-            is MutableList<*> -> arg as MutableList<Any>
-            else -> throw RuntimeException("Expected an array or list")
-        }
+    override fun call(interpreter: Interpreter, arguments: List<Any>): Any {
+        val list = getList(arguments[0])
+        val sampleSize = getSampleSize(arguments[1], list.size)
+
+        return list.shuffled(Random).take(sampleSize)
     }
 
-    override fun call(
-        interpreter: Interpreter,
-        arguments: List<Any>
-    ): Any {
-        val list = extractList(arguments[0])
-        val k = (arguments[1] as Double).toInt()
-
-        if (k > list.size)
-            throw IllegalArgumentException("Sample size cannot be larger than list size")
-
-        return list.shuffled().take(k)
+    private fun getSampleSize(arg: Any, listSize: Int): Int {
+        if (arg is Double) {
+            val sampleSize = arg.toInt()
+            if (sampleSize in 0..listSize) {
+                return sampleSize
+            } else {
+                throw IllegalArgumentException("Sample size must be between 0 and the size of the list.")
+            }
+        } else {
+            throw IllegalArgumentException("Second argument must be a number (Double).")
+        }
     }
 }

@@ -21,7 +21,12 @@ class Random(
         "uniform" to RandomUniform(),
         "triangular" to RandomTriangular(),
         "weighted_choice" to RandomWeightedChoice(),
-        "gaussian" to RandomGaussian()
+        "gaussian" to RandomGaussian(),
+        "geometric" to RandomGeometric(),
+        "shuffle" to RandomShuffle(),
+        "zipf" to RandomZipf(),
+        "uuid" to RandomUUID(),
+        "poisson" to RandomPoisson(),
     ),
     override val superclass: PClass? = null
 ) : PNativeClass {
