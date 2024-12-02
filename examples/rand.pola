@@ -1,0 +1,27 @@
+import("pola/io")
+import("pola/random")
+import("pola/array")
+
+io.println("--- Random Integer Examples ---")
+
+var randomInRange = random.int(5, 11)
+io.println("Random integer in range: " + randomInRange)
+
+var randomFloat = random.float(0,2)
+io.println("Random float in range: " + randomFloat)
+
+var choices = array("Apples", "Oranges", "Bananas")
+var randomFruit = random.choice(choices)
+io.println("Random Fruit: " + randomFruit)
+
+var seed = random.seed()
+io.println("Random Seed:" + seed)
+
+var sample = random.sample(array(1,2,3), 1)
+io.println("Random Sample: " + sample)
+
+var randomBool = random.bool()
+io.println("Random Bool: " + randomBool)
+
+var randomGaussian = random.gaussian(10,113)
+io.println("Random Gaussian: " + randomGaussian)
