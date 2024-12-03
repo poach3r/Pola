@@ -10,28 +10,36 @@ import java.io.File
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
-    Main.main(args)
+    Global.main = Main(args)
+    Global.main.interpret()
 }
 
-object Main {
-    val scanner = Scanner()
-    val parser = Parser()
-    val interpreter = Interpreter()
-    val resolver = Resolver(interpreter)
-    var config: Config? = null
+object Global {
+    lateinit var main: Main
+}
 
-    fun main(args: Array<String>) {
+class Main(
+    args: Array<String>
+) {
+    private val scanner = Scanner()
+    private val parser = Parser()
+    private val interpreter = Interpreter()
+    private val resolver = Resolver(interpreter)
+    private var config: Config? = null
+
+
+    init {
         try {
             config = Config.of(args)
         } catch (e: ArgError) {
             System.err.println(e.message)
             exitProcess(1)
         }
-
-        interpret(config!!.file!!)
     }
 
-    fun interpret(file: File) {
+    fun interpret(
+        file: File = config!!.file!!
+    ) {
         try {
             val statements = parser.parse(scanner.scanTokens(file.readLines().joinToString("\n")))
             resolver.resolve(statements)

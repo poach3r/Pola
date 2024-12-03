@@ -7,4 +7,4 @@ fun fib(n) {
     return fib(n - 1) + fib(n - 2)
 }
 
-fib(25)
+io.println(fib(25))

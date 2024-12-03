@@ -1,5 +1,6 @@
 package org.poach3r.frontend.functions
 
+import org.poach3r.Global
 import org.poach3r.Main
 import org.poach3r.errors.RuntimeError
 import org.poach3r.frontend.Interpreter
@@ -49,7 +50,7 @@ class Import(
                     )
                 }
 
-                Main.interpret(possibleClass)
+                Global.main.interpret(possibleClass)
 
                 arguments[0] as kotlin.String // this is temporary
             }

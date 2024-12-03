@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Main" type="JetRunConfigurationType">
+    <option name="MAIN_CLASS_NAME" value="org.poach3r.MainKt" />
+    <module name="ShellLang.main" />
+    <option name="PROGRAM_PARAMETERS" value="-f ./examples/rand.pola" />
+    <shortenClasspath name="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
