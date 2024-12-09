@@ -1,0 +1,19 @@
+import("pola/sys")
+import("pola/io")
+
+
+# Get system information
+var cpu_info = sys.getCPUInfo()
+var memory_info = sys.getMemoryInfo()
+
+io.println("Number of CPU Cores: " + cpu_info.cores)  # Number of CPU cores
+io.println("Amount of Free Memory: " + memory_info.max)
+
+# Run a shell command
+# This will provide a runtime error if the command isn't found. You may want to handle this graciously.
+# var output = sys.runCommand("echo 'Hello, World!'")
+# io.println(output)
+
+# Get environment variable
+var home_dir = sys.getEnv("HOME")
+io.println(home_dir)
